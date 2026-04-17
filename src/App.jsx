@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Swords, Flame, Heart, Zap, Dumbbell, Trophy, Target, Check, Plus, X, Trash2, Search, ArrowLeft, Shield, Crown, Star, Apple, Camera, Loader, Scale, BarChart3, TrendingUp, TrendingDown, Calendar, Skull, Medal } from 'lucide-react';
+import { Swords, Flame, Heart, Zap, Dumbbell, Trophy, Target, Check, Plus, X, Trash2, Search, ArrowLeft, Shield, Crown, Star, Apple, Camera, Loader, Scale, BarChart3, TrendingUp, TrendingDown, Calendar, Skull, Medal, Download, Upload, Save } from 'lucide-react';
 
 const TITLES = [
   { level: 1, name: "Apprentice" },
@@ -341,6 +341,8 @@ const ACTIVITY_MULTIPLIER = { beginner: 1.375, intermediate: 1.55, expert: 1.725
 const GOAL_ADJUSTMENT = { cut: -500, recomp: -200, maintain: 0, bulk: 300 };
 const GOAL_LABELS = { cut: "Lose fat", recomp: "Recomp", maintain: "Maintain", bulk: "Lean bulk" };
 
+const SAVE_VERSION = 'forge-1.0';
+
 const calculateMacros = (body, diffKey) => {
   if (!body || !body.weight || !body.height || !body.age) return null;
   const weightKg = body.unit === 'metric' ? parseFloat(body.weight) : parseFloat(body.weight) * 0.453592;
@@ -440,6 +442,11 @@ export default function Forge() {
   const [exerciseHistory, setExerciseHistory] = useState({});
   const [currentSetData, setCurrentSetData] = useState({});
 
+  // --- NEW: Save data modal state ---
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [saveMessage, setSaveMessage] = useState(null); // { type: 'success' | 'error', text: '...' }
+  const importFileRef = useRef(null);
+
   useEffect(() => {
     try {
       const saved = localStorage.getItem('forge-save');
@@ -506,7 +513,7 @@ export default function Forge() {
         playerName, difficulty, workouts, playerData, mealsLog, bodyStats,
         weightLog, workoutHistory, goalWeight, currentBoss, bossesDefeated,
         weekNumber, unlockedAchievements, proteinGoalDays, exerciseHistory,
-        lastPlayed: new Date().toISOString(), version: 'forge-1.0',
+        lastPlayed: new Date().toISOString(), version: SAVE_VERSION,
       };
       localStorage.setItem('forge-save', JSON.stringify(data));
     } catch (err) {
@@ -522,7 +529,113 @@ export default function Forge() {
     setQuizStep(0);
     setQuizAnswers({});
     setRecommendation(null);
+    setShowSaveModal(false);
     setView('intro');
+  };
+
+  // --- NEW: Export save as JSON file ---
+  const exportSave = () => {
+    try {
+      const data = {
+        playerName, difficulty, workouts, playerData, mealsLog, bodyStats,
+        weightLog, workoutHistory, goalWeight, currentBoss, bossesDefeated,
+        weekNumber, unlockedAchievements, proteinGoalDays, exerciseHistory,
+        lastPlayed: new Date().toISOString(),
+        version: SAVE_VERSION,
+        exportedAt: new Date().toISOString(),
+      };
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const safeName = (playerName || 'hero').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const dateStr = new Date().toISOString().split('T')[0];
+      a.href = url;
+      a.download = `forge-save-${safeName}-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setSaveMessage({ type: 'success', text: 'Save exported. Keep the file safe — it is your backup.' });
+      setTimeout(() => setSaveMessage(null), 4000);
+    } catch (err) {
+      setSaveMessage({ type: 'error', text: 'Export failed: ' + err.message });
+      setTimeout(() => setSaveMessage(null), 4000);
+    }
+  };
+
+  // --- NEW: Import save from JSON file ---
+  const importSave = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+
+        // Basic validation — must have the core playthrough data
+        if (!data.playerData || !data.difficulty || !data.workouts || !data.playerData.level) {
+          setSaveMessage({ type: 'error', text: 'Invalid save file: missing required fields.' });
+          setTimeout(() => setSaveMessage(null), 4000);
+          return;
+        }
+
+        // Destructive — confirm before overwriting
+        const hasCurrentSave = playerData !== null;
+        const confirmMsg = hasCurrentSave
+          ? `This will overwrite your current save (Level ${playerData.level} ${playerData.name}) with Level ${data.playerData.level} ${data.playerData.name}. Continue?`
+          : `Import save for ${data.playerData.name} (Level ${data.playerData.level})?`;
+
+        if (!window.confirm(confirmMsg)) return;
+
+        // Apply to state
+        setPlayerName(data.playerName || 'Kenzo');
+        setDifficulty(data.difficulty);
+        setWorkouts(data.workouts);
+        setPlayerData(data.playerData);
+        setMealsLog(data.mealsLog || {});
+        if (data.bodyStats) setBodyStats(data.bodyStats);
+        setWeightLog(data.weightLog || []);
+        setWorkoutHistory(data.workoutHistory || []);
+        setGoalWeight(data.goalWeight || '');
+        setCurrentBoss(data.currentBoss || null);
+        setBossesDefeated(data.bossesDefeated || 0);
+        setWeekNumber(data.weekNumber || 0);
+        setUnlockedAchievements(data.unlockedAchievements || []);
+        setProteinGoalDays(data.proteinGoalDays || []);
+        setExerciseHistory(data.exerciseHistory || {});
+
+        // Belt-and-suspenders write to localStorage in case the user closes the tab before re-render
+        try {
+          localStorage.setItem('forge-save', JSON.stringify({
+            ...data,
+            lastPlayed: new Date().toISOString(),
+            version: SAVE_VERSION,
+          }));
+        } catch (writeErr) {
+          console.warn('Immediate write failed, relying on auto-save:', writeErr);
+        }
+
+        setShowSaveModal(false);
+        setView('home');
+        setSaveMessage({ type: 'success', text: `Welcome back, ${data.playerData.name}. Save restored.` });
+        setTimeout(() => setSaveMessage(null), 4000);
+      } catch (err) {
+        setSaveMessage({ type: 'error', text: 'Could not read save file: ' + err.message });
+        setTimeout(() => setSaveMessage(null), 4000);
+      }
+    };
+    reader.onerror = () => {
+      setSaveMessage({ type: 'error', text: 'Failed to read file.' });
+      setTimeout(() => setSaveMessage(null), 4000);
+    };
+    reader.readAsText(file);
+  };
+
+  const handleImportChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) importSave(file);
+    // Reset so the same file can be re-selected if needed
+    e.target.value = '';
   };
 
   const answerQuiz = (option) => {
@@ -1016,6 +1129,62 @@ export default function Forge() {
     setBuilderExercises(prev => prev.filter((_, i) => i !== idx));
   };
 
+  // --- NEW: Save Data Modal ---
+  const SaveDataModal = () => {
+    if (!showSaveModal) return null;
+    const hasSave = playerData !== null;
+
+    return (
+      <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowSaveModal(false)}>
+        <div className="bg-gradient-to-br from-red-950 to-black border-2 border-red-500/50 rounded-3xl p-6 max-w-sm w-full shadow-2xl shadow-red-950" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Save size={20} className="text-red-500" />
+              <h3 className="text-lg font-black uppercase tracking-wider">Save Data</h3>
+            </div>
+            <button onClick={() => setShowSaveModal(false)} className="text-slate-500 hover:text-red-400">
+              <X size={20} />
+            </button>
+          </div>
+
+          <p className="text-xs text-slate-400 mb-4">
+            Your progress lives in this browser. Export a backup file regularly — if you clear your browser, switch devices, or your laptop dies, a backup is the only way to keep your stats.
+          </p>
+
+          <div className="space-y-2">
+            <button
+              onClick={exportSave}
+              disabled={!hasSave}
+              className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold py-3 rounded-xl disabled:opacity-40 hover:brightness-110 uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-red-950/50"
+            >
+              <Download size={16} />
+              Export Save
+            </button>
+            <div className="text-[10px] text-slate-500 text-center -mt-1 mb-1">Downloads a JSON file</div>
+
+            <button
+              onClick={() => importFileRef.current?.click()}
+              className="w-full bg-slate-950 border border-red-500/50 text-white font-bold py-3 rounded-xl hover:bg-red-950/40 uppercase tracking-wider flex items-center justify-center gap-2"
+            >
+              <Upload size={16} />
+              Import Save
+            </button>
+            <div className="text-[10px] text-slate-500 text-center -mt-1 mb-3">Overwrites current progress</div>
+
+            <div className="border-t border-red-900/30 pt-3">
+              <button
+                onClick={() => { if (window.confirm('Reset all progress? This cannot be undone unless you have exported a backup.')) resetGame(); }}
+                className="w-full bg-transparent border border-red-900/40 text-red-500 font-semibold py-2 rounded-xl hover:bg-red-950/40 text-sm uppercase tracking-wider"
+              >
+                Reset All Progress
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -1032,6 +1201,18 @@ export default function Forge() {
   if (view === 'intro') {
     return (
       <div className="min-h-screen bg-black text-white p-4 flex flex-col relative overflow-hidden">
+        {/* Hidden file input for importing save from the intro screen */}
+        <input type="file" accept="application/json,.json" ref={importFileRef} onChange={handleImportChange} className="hidden" />
+
+        {/* Save message toast */}
+        {saveMessage && (
+          <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl border text-sm font-bold ${
+            saveMessage.type === 'success' ? 'bg-red-950/90 border-red-500/50 text-red-200' : 'bg-red-950/90 border-red-500 text-red-100'
+          }`}>
+            {saveMessage.text}
+          </div>
+        )}
+
         {/* Ambient red glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-red-600/25 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-red-900/40 rounded-full blur-3xl pointer-events-none"></div>
@@ -1039,7 +1220,6 @@ export default function Forge() {
 
         {/* HERO */}
         <div className="relative text-center pt-16 pb-8">
-          {/* Logo icon with glow */}
           <div className="relative inline-block mb-4">
             <div className="absolute inset-0 bg-red-500 blur-2xl opacity-70 animate-pulse"></div>
             <div className="relative bg-gradient-to-br from-red-500 via-red-700 to-red-950 p-5 rounded-3xl shadow-2xl shadow-red-900/80 border-2 border-red-400/50">
@@ -1047,7 +1227,6 @@ export default function Forge() {
             </div>
           </div>
 
-          {/* FORGE logo — huge with deep glow */}
           <h1 className="relative text-8xl font-black tracking-[-0.05em] leading-none mb-3">
             <span className="bg-gradient-to-b from-red-300 via-red-500 to-red-900 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(239,68,68,0.6)]">
               FORGE
@@ -1059,7 +1238,6 @@ export default function Forge() {
           </p>
         </div>
 
-        {/* Name input */}
         <div className="relative mb-4">
           <label className="text-xs text-red-500 uppercase tracking-[0.25em] mb-2 block font-bold">Your Name</label>
           <input
@@ -1072,9 +1250,7 @@ export default function Forge() {
           />
         </div>
 
-        {/* Character Creation card — hero CTA */}
         <div className="relative bg-gradient-to-br from-red-950 via-black to-red-950/80 border-2 border-red-500/50 rounded-2xl p-5 mb-4 shadow-2xl shadow-red-900/50 overflow-hidden">
-          {/* Inner glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-500/30 rounded-full blur-2xl pointer-events-none"></div>
 
           <div className="relative">
@@ -1098,7 +1274,6 @@ export default function Forge() {
           </div>
         </div>
 
-        {/* Preview cards — revised icons/labels */}
         <div className="relative grid grid-cols-3 gap-2 mb-4 text-center">
           <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-500/30 rounded-xl p-3 shadow-lg shadow-red-950/40">
             <Flame size={20} className="mx-auto text-red-500 mb-1" />
@@ -1120,9 +1295,17 @@ export default function Forge() {
         <button
           onClick={() => setView('manualSelect')}
           disabled={!playerName.trim()}
-          className="relative text-sm text-slate-500 hover:text-red-400 underline disabled:opacity-40"
+          className="relative text-sm text-slate-500 hover:text-red-400 underline disabled:opacity-40 mb-2"
         >
           Skip quiz · pick class manually
+        </button>
+
+        {/* NEW: Import existing save — critical for returning users on new devices */}
+        <button
+          onClick={() => importFileRef.current?.click()}
+          className="relative text-sm text-slate-600 hover:text-red-400 underline flex items-center justify-center gap-1"
+        >
+          <Upload size={12} /> Returning? Import your save file
         </button>
 
         <div className="flex-1"></div>
@@ -2105,6 +2288,21 @@ export default function Forge() {
 
   return (
     <div className="min-h-screen bg-black text-white p-4 pb-8 relative overflow-hidden">
+      {/* Hidden file input for importing save from the home screen */}
+      <input type="file" accept="application/json,.json" ref={importFileRef} onChange={handleImportChange} className="hidden" />
+
+      {/* Save data modal */}
+      <SaveDataModal />
+
+      {/* Save message toast */}
+      {saveMessage && (
+        <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl border text-sm font-bold max-w-sm text-center ${
+          saveMessage.type === 'success' ? 'bg-red-950/90 border-red-500/50 text-red-200' : 'bg-red-950/90 border-red-500 text-red-100'
+        }`}>
+          {saveMessage.text}
+        </div>
+      )}
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none"></div>
 
       {showXpGain && (
@@ -2201,8 +2399,12 @@ export default function Forge() {
           <DIcon size={14} />
           <span className="text-xs font-bold uppercase tracking-wider">{diffConfig.name}</span>
         </div>
-        <button onClick={resetGame} className="text-xs text-slate-600 hover:text-red-400 uppercase tracking-wider">
-          Reset
+        {/* NEW: Save Data button replaces the old Reset link */}
+        <button
+          onClick={() => setShowSaveModal(true)}
+          className="text-xs text-slate-500 hover:text-red-400 uppercase tracking-wider flex items-center gap-1 bg-slate-950 border border-red-900/30 rounded-full px-3 py-1"
+        >
+          <Save size={12} /> Save Data
         </button>
       </div>
 
