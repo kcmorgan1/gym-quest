@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Swords, Flame, Heart, Zap, Dumbbell, Trophy, Target, Check, Plus, X, Trash2, Search, ArrowLeft, Shield, Crown, Star, Apple, Camera, Loader, Scale, BarChart3, TrendingUp, TrendingDown, Calendar, Skull, Medal } from 'lucide-react';
 
 const TITLES = [
-  { level: 1, name: "Novice Wanderer" },
+  { level: 1, name: "Apprentice" },
   { level: 3, name: "Iron Squire" },
-  { level: 5, name: "Gym Knight" },
+  { level: 5, name: "Forge Knight" },
   { level: 8, name: "Steel Warden" },
   { level: 12, name: "Iron Baron" },
-  { level: 16, name: "Champion of the Rack" },
+  { level: 16, name: "Forge Master" },
   { level: 20, name: "Legendary Ironlord" },
   { level: 25, name: "Mythic Titan" },
 ];
@@ -66,7 +66,7 @@ const FOOD_DATABASE = [
 const WORKOUT_SETS = {
   beginner: {
     fullbody_a: {
-      name: "Full Body A", icon: "A", color: "from-cyan-500 to-blue-500", stat: "STR",
+      name: "Full Body A", icon: "A", color: "from-red-600 to-red-800", stat: "STR",
       exercises: [
         { name: "Goblet Squat", sets: 3, reps: "10" },
         { name: "Push-Ups", sets: 3, reps: "8-10" },
@@ -75,7 +75,7 @@ const WORKOUT_SETS = {
       ]
     },
     fullbody_b: {
-      name: "Full Body B", icon: "B", color: "from-green-500 to-emerald-500", stat: "STR",
+      name: "Full Body B", icon: "B", color: "from-red-500 to-rose-700", stat: "STR",
       exercises: [
         { name: "Romanian Deadlift", sets: 3, reps: "10" },
         { name: "Dumbbell Shoulder Press", sets: 3, reps: "10" },
@@ -84,7 +84,7 @@ const WORKOUT_SETS = {
       ]
     },
     light_cardio: {
-      name: "Easy Cardio", icon: "C", color: "from-yellow-500 to-orange-500", stat: "END",
+      name: "Easy Cardio", icon: "C", color: "from-orange-600 to-red-700", stat: "END",
       exercises: [
         { name: "Incline Treadmill Walk", sets: 1, reps: "20 min" },
         { name: "Plank", sets: 2, reps: "30 sec" },
@@ -94,7 +94,7 @@ const WORKOUT_SETS = {
   },
   intermediate: {
     push: {
-      name: "Push Day", icon: "P", color: "from-red-500 to-orange-500", stat: "STR",
+      name: "Push Day", icon: "P", color: "from-red-500 to-red-800", stat: "STR",
       exercises: [
         { name: "Bench Press", sets: 4, reps: "6-8" },
         { name: "Overhead Press", sets: 3, reps: "8-10" },
@@ -104,7 +104,7 @@ const WORKOUT_SETS = {
       ]
     },
     pull: {
-      name: "Pull Day", icon: "L", color: "from-blue-500 to-purple-500", stat: "STR",
+      name: "Pull Day", icon: "L", color: "from-rose-600 to-red-900", stat: "STR",
       exercises: [
         { name: "Pull-Ups", sets: 4, reps: "6-10" },
         { name: "Barbell Row", sets: 3, reps: "8-10" },
@@ -114,7 +114,7 @@ const WORKOUT_SETS = {
       ]
     },
     lower: {
-      name: "Lower Body", icon: "X", color: "from-green-500 to-emerald-500", stat: "STR",
+      name: "Lower Body", icon: "X", color: "from-red-700 to-red-950", stat: "STR",
       exercises: [
         { name: "Back Squat", sets: 4, reps: "6-8" },
         { name: "Romanian Deadlift", sets: 3, reps: "8-10" },
@@ -124,7 +124,7 @@ const WORKOUT_SETS = {
       ]
     },
     cardio: {
-      name: "Cardio + Core", icon: "R", color: "from-yellow-500 to-orange-500", stat: "END",
+      name: "Cardio + Core", icon: "R", color: "from-orange-500 to-red-700", stat: "END",
       exercises: [
         { name: "Incline Treadmill Walk", sets: 1, reps: "20-30 min" },
         { name: "Hanging Leg Raises", sets: 3, reps: "10-12" },
@@ -135,7 +135,7 @@ const WORKOUT_SETS = {
   },
   expert: {
     chest_tri: {
-      name: "Chest + Triceps", icon: "C", color: "from-red-500 to-pink-500", stat: "STR",
+      name: "Chest + Triceps", icon: "C", color: "from-red-500 to-pink-700", stat: "STR",
       exercises: [
         { name: "Bench Press", sets: 5, reps: "5" },
         { name: "Incline Bench Press", sets: 4, reps: "6-8" },
@@ -146,7 +146,7 @@ const WORKOUT_SETS = {
       ]
     },
     back_bi: {
-      name: "Back + Biceps", icon: "B", color: "from-blue-500 to-indigo-500", stat: "STR",
+      name: "Back + Biceps", icon: "B", color: "from-red-700 to-red-950", stat: "STR",
       exercises: [
         { name: "Deadlift", sets: 5, reps: "5" },
         { name: "Pull-Ups", sets: 4, reps: "8-10" },
@@ -157,7 +157,7 @@ const WORKOUT_SETS = {
       ]
     },
     legs: {
-      name: "Heavy Legs", icon: "L", color: "from-green-500 to-teal-500", stat: "STR",
+      name: "Heavy Legs", icon: "L", color: "from-rose-700 to-red-900", stat: "STR",
       exercises: [
         { name: "Back Squat", sets: 5, reps: "5" },
         { name: "Romanian Deadlift", sets: 4, reps: "6-8" },
@@ -168,7 +168,7 @@ const WORKOUT_SETS = {
       ]
     },
     shoulders: {
-      name: "Shoulders", icon: "S", color: "from-violet-500 to-fuchsia-500", stat: "STR",
+      name: "Shoulders", icon: "S", color: "from-red-600 to-rose-800", stat: "STR",
       exercises: [
         { name: "Overhead Press", sets: 5, reps: "5" },
         { name: "Arnold Press", sets: 4, reps: "8-10" },
@@ -179,7 +179,7 @@ const WORKOUT_SETS = {
       ]
     },
     conditioning: {
-      name: "Conditioning", icon: "R", color: "from-orange-500 to-red-500", stat: "END",
+      name: "Conditioning", icon: "R", color: "from-orange-600 to-red-800", stat: "END",
       exercises: [
         { name: "Sprints", sets: 8, reps: "30s on / 30s off" },
         { name: "Jump Rope", sets: 1, reps: "10 min" },
@@ -193,10 +193,10 @@ const WORKOUT_SETS = {
 
 const DIFFICULTY = {
   beginner: {
-    name: "Beginner",
-    subtitle: "New to the gym",
+    name: "Apprentice",
+    subtitle: "New to the forge",
     icon: Shield,
-    color: "from-green-400 to-emerald-600",
+    color: "from-red-700 to-red-900",
     description: "3 days/week. Simple full-body workouts. Extra XP to get you hooked.",
     daysPerWeek: 3,
     xpMultiplier: 1.3,
@@ -207,10 +207,10 @@ const DIFFICULTY = {
     proteinTarget: 120,
   },
   intermediate: {
-    name: "Intermediate",
+    name: "Ironclad",
     subtitle: "Training consistently",
     icon: Star,
-    color: "from-blue-400 to-purple-600",
+    color: "from-red-500 to-red-700",
     description: "4 days/week. Push/Pull/Lower/Cardio split. Balanced XP.",
     daysPerWeek: 4,
     xpMultiplier: 1.0,
@@ -221,10 +221,10 @@ const DIFFICULTY = {
     proteinTarget: 150,
   },
   expert: {
-    name: "Expert",
+    name: "Warforged",
     subtitle: "Experienced lifter",
     icon: Crown,
-    color: "from-yellow-400 via-orange-500 to-red-600",
+    color: "from-orange-500 via-red-600 to-red-900",
     description: "5 days/week. High-volume body-part splits. XP must be earned.",
     daysPerWeek: 5,
     xpMultiplier: 0.75,
@@ -237,9 +237,9 @@ const DIFFICULTY = {
 };
 
 const COLOR_OPTIONS = [
-  "from-red-500 to-orange-500", "from-blue-500 to-purple-500", "from-green-500 to-emerald-500",
-  "from-yellow-500 to-orange-500", "from-pink-500 to-rose-500", "from-cyan-500 to-blue-500",
-  "from-violet-500 to-fuchsia-500", "from-teal-500 to-green-500",
+  "from-red-500 to-red-700", "from-red-600 to-rose-800", "from-orange-500 to-red-700",
+  "from-rose-600 to-red-900", "from-red-700 to-red-950", "from-pink-600 to-red-800",
+  "from-red-500 to-orange-700", "from-red-800 to-black",
 ];
 
 const ICON_OPTIONS = ["A", "B", "C", "D", "X", "Y", "Z", "P", "R", "S"];
@@ -266,7 +266,7 @@ const ACHIEVEMENTS = [
   { id: 'streak_7', name: "Week Warrior", desc: "7-day streak", xp: 150 },
   { id: 'streak_14', name: "Fortnight Fighter", desc: "14-day streak", xp: 250 },
   { id: 'streak_30', name: "Monthly Monk", desc: "30-day streak", xp: 500 },
-  { id: 'level_5', name: "Gym Knight", desc: "Reach level 5", xp: 100 },
+  { id: 'level_5', name: "Forge Knight", desc: "Reach level 5", xp: 100 },
   { id: 'level_10', name: "Iron Lord", desc: "Reach level 10", xp: 250 },
   { id: 'level_20', name: "Mythic Rank", desc: "Reach level 20", xp: 500 },
   { id: 'first_boss', name: "Boss Slayer", desc: "Defeat your first boss", xp: 200 },
@@ -378,7 +378,7 @@ const getTitle = (level) => {
   return title;
 };
 
-export default function GymQuest() {
+export default function Forge() {
   const [difficulty, setDifficulty] = useState(null);
   const [playerName, setPlayerName] = useState("Kenzo");
   const [workouts, setWorkouts] = useState({});
@@ -402,7 +402,7 @@ export default function GymQuest() {
 
   const [builderName, setBuilderName] = useState("");
   const [builderIcon, setBuilderIcon] = useState("X");
-  const [builderColor, setBuilderColor] = useState(COLOR_OPTIONS[6]);
+  const [builderColor, setBuilderColor] = useState(COLOR_OPTIONS[0]);
   const [builderStat, setBuilderStat] = useState("STR");
   const [builderExercises, setBuilderExercises] = useState([]);
   const [librarySearch, setLibrarySearch] = useState("");
@@ -440,10 +440,9 @@ export default function GymQuest() {
   const [exerciseHistory, setExerciseHistory] = useState({});
   const [currentSetData, setCurrentSetData] = useState({});
 
-  // Load saved game on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('gymquest-save');
+      const saved = localStorage.getItem('forge-save');
       if (saved) {
         const data = JSON.parse(saved);
         if (data.playerData && data.difficulty && data.workouts) {
@@ -500,7 +499,6 @@ export default function GymQuest() {
     setIsLoaded(true);
   }, []);
 
-  // Save game
   useEffect(() => {
     if (!isLoaded || !playerData || !difficulty) return;
     try {
@@ -508,16 +506,16 @@ export default function GymQuest() {
         playerName, difficulty, workouts, playerData, mealsLog, bodyStats,
         weightLog, workoutHistory, goalWeight, currentBoss, bossesDefeated,
         weekNumber, unlockedAchievements, proteinGoalDays, exerciseHistory,
-        lastPlayed: new Date().toISOString(), version: '1.9-local',
+        lastPlayed: new Date().toISOString(), version: 'forge-1.0',
       };
-      localStorage.setItem('gymquest-save', JSON.stringify(data));
+      localStorage.setItem('forge-save', JSON.stringify(data));
     } catch (err) {
       console.error('Save failed:', err);
     }
   }, [playerData, difficulty, workouts, playerName, mealsLog, bodyStats, weightLog, workoutHistory, goalWeight, currentBoss, bossesDefeated, weekNumber, unlockedAchievements, proteinGoalDays, exerciseHistory, isLoaded]);
 
   const resetGame = () => {
-    try { localStorage.removeItem('gymquest-save'); } catch (err) {}
+    try { localStorage.removeItem('forge-save'); } catch (err) {}
     setDifficulty(null);
     setPlayerData(null);
     setWorkouts({});
@@ -798,22 +796,6 @@ export default function GymQuest() {
     }
   };
 
-  const takeDamage = () => {
-    const damage = 20;
-    let newHp = playerData.hp - damage;
-    let newStreak = playerData.streak;
-    let newKnockouts = playerData.knockouts;
-
-    if (newHp <= 0) {
-      newHp = 50;
-      newStreak = 0;
-      newKnockouts = playerData.knockouts + 1;
-      setShowKnockout(true);
-    }
-
-    setPlayerData({ ...playerData, hp: newHp, streak: newStreak, knockouts: newKnockouts });
-  };
-
   const startWorkout = (key) => {
     setActiveWorkout(key);
     setActiveExercises([...workouts[key].exercises]);
@@ -989,7 +971,7 @@ export default function GymQuest() {
   const openBuilder = () => {
     setBuilderName("");
     setBuilderIcon("X");
-    setBuilderColor(COLOR_OPTIONS[6]);
+    setBuilderColor(COLOR_OPTIONS[0]);
     setBuilderStat("STR");
     setBuilderExercises([]);
     setLibrarySearch("");
@@ -1034,97 +1016,144 @@ export default function GymQuest() {
     setBuilderExercises(prev => prev.filter((_, i) => i !== idx));
   };
 
-  // LOADING
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin mb-4">
-            <Swords size={48} className="text-yellow-400" />
+            <Swords size={48} className="text-red-500" />
           </div>
-          <div className="text-slate-400 text-sm">Loading your save...</div>
+          <div className="text-slate-500 text-sm uppercase tracking-widest">Loading</div>
         </div>
       </div>
     );
   }
 
-  // INTRO
   if (view === 'intro') {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 flex flex-col">
-        <div className="text-center pt-12 pb-8">
-          <div className="inline-block bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 p-4 rounded-3xl mb-4 shadow-2xl">
-            <Swords size={48} className="text-white" />
+      <div className="min-h-screen bg-black text-white p-4 flex flex-col relative overflow-hidden">
+        {/* Ambient red glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-red-600/25 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-red-900/40 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-1/3 left-0 w-64 h-64 bg-red-700/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        {/* HERO */}
+        <div className="relative text-center pt-16 pb-8">
+          {/* Logo icon with glow */}
+          <div className="relative inline-block mb-4">
+            <div className="absolute inset-0 bg-red-500 blur-2xl opacity-70 animate-pulse"></div>
+            <div className="relative bg-gradient-to-br from-red-500 via-red-700 to-red-950 p-5 rounded-3xl shadow-2xl shadow-red-900/80 border-2 border-red-400/50">
+              <Swords size={52} className="text-white" strokeWidth={2.5} />
+            </div>
           </div>
-          <h1 className="text-5xl font-black bg-gradient-to-r from-yellow-300 to-orange-500 bg-clip-text text-transparent mb-2">
-            GYM QUEST
+
+          {/* FORGE logo — huge with deep glow */}
+          <h1 className="relative text-8xl font-black tracking-[-0.05em] leading-none mb-3">
+            <span className="bg-gradient-to-b from-red-300 via-red-500 to-red-900 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(239,68,68,0.6)]">
+              FORGE
+            </span>
           </h1>
-          <p className="text-slate-400 text-sm">Level up your body. Literally.</p>
+
+          <p className="relative text-red-400 text-base font-black tracking-[0.4em] uppercase">
+            Forge yourself.
+          </p>
         </div>
 
-        <div className="mb-6">
-          <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Your Hero's Name</label>
+        {/* Name input */}
+        <div className="relative mb-4">
+          <label className="text-xs text-red-500 uppercase tracking-[0.25em] mb-2 block font-bold">Your Name</label>
           <input
             type="text"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white text-lg focus:border-yellow-500 outline-none"
+            className="w-full bg-slate-950 border-2 border-red-900/60 rounded-xl px-4 py-3 text-white text-lg focus:border-red-500 outline-none shadow-lg shadow-red-950/30"
             placeholder="Enter your name..."
             maxLength={20}
           />
         </div>
 
-        <div className="bg-gradient-to-br from-indigo-600/40 to-purple-600/40 border border-indigo-500/30 rounded-2xl p-5 mb-4">
-          <div className="text-xs text-indigo-300 uppercase tracking-wider mb-2 font-bold">Character Creation</div>
-          <h3 className="font-bold mb-1">Find your class</h3>
-          <p className="text-sm text-slate-300 mb-4">Answer 5 quick questions and we'll match you to the right tier.</p>
-          <button
-            onClick={startQuiz}
-            disabled={!playerName.trim()}
-            className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-3 rounded-xl disabled:opacity-40 hover:brightness-110"
-          >
-            BEGIN QUIZ
-          </button>
+        {/* Character Creation card — hero CTA */}
+        <div className="relative bg-gradient-to-br from-red-950 via-black to-red-950/80 border-2 border-red-500/50 rounded-2xl p-5 mb-4 shadow-2xl shadow-red-900/50 overflow-hidden">
+          {/* Inner glow */}
+          <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-500/30 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div className="relative">
+            <div className="flex items-center gap-2 mb-2">
+              <Swords size={14} className="text-red-500" />
+              <div className="text-xs text-red-500 uppercase tracking-[0.25em] font-black">Character Creation</div>
+            </div>
+            <h3 className="font-black mb-1 text-xl">Find Your Class</h3>
+            <p className="text-sm text-slate-400 mb-4">5 quick questions to match you to the right tier.</p>
+
+            <button
+              onClick={startQuiz}
+              disabled={!playerName.trim()}
+              className="w-full relative group disabled:opacity-30"
+            >
+              <div className="absolute inset-0 bg-red-500 blur-lg opacity-60 group-hover:opacity-100 transition"></div>
+              <div className="relative bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white font-black py-3 rounded-xl uppercase tracking-[0.25em] shadow-xl shadow-red-950/60 group-hover:brightness-125 transition border border-red-400/50">
+                ▶ Begin Quiz
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Preview cards — revised icons/labels */}
+        <div className="relative grid grid-cols-3 gap-2 mb-4 text-center">
+          <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-500/30 rounded-xl p-3 shadow-lg shadow-red-950/40">
+            <Flame size={20} className="mx-auto text-red-500 mb-1" />
+            <div className="text-xs font-black uppercase tracking-wider">Train</div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-wider">Earn XP</div>
+          </div>
+          <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-500/30 rounded-xl p-3 shadow-lg shadow-red-950/40">
+            <Skull size={20} className="mx-auto text-red-500 mb-1" />
+            <div className="text-xs font-black uppercase tracking-wider">Fight</div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly boss</div>
+          </div>
+          <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-500/30 rounded-xl p-3 shadow-lg shadow-red-950/40">
+            <Trophy size={20} className="mx-auto text-red-500 mb-1" />
+            <div className="text-xs font-black uppercase tracking-wider">Conquer</div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-wider">Level up</div>
+          </div>
         </div>
 
         <button
           onClick={() => setView('manualSelect')}
           disabled={!playerName.trim()}
-          className="text-sm text-slate-400 hover:text-slate-200 underline disabled:opacity-40"
+          className="relative text-sm text-slate-500 hover:text-red-400 underline disabled:opacity-40"
         >
-          Skip quiz. Pick class manually.
+          Skip quiz · pick class manually
         </button>
 
         <div className="flex-1"></div>
-        <div className="text-center text-xs text-slate-500 pt-6 pb-4">
-          You can change your class anytime
+        <div className="relative text-center text-xs text-slate-700 pt-6 pb-4 uppercase tracking-[0.3em] font-bold">
+          Forge · v1.0
         </div>
       </div>
     );
   }
 
-  // QUIZ
   if (view === 'quiz') {
     const q = QUIZ_QUESTIONS[quizStep];
     const progress = ((quizStep + 1) / QUIZ_QUESTIONS.length) * 100;
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 flex flex-col">
+      <div className="min-h-screen bg-black text-white p-4 flex flex-col">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={goBackQuiz} className="bg-slate-800 rounded-full p-2">
+          <button onClick={goBackQuiz} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <div className="flex-1">
-            <div className="text-xs text-slate-400 mb-1">Question {quizStep + 1} of {QUIZ_QUESTIONS.length}</div>
-            <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 transition-all duration-500" style={{ width: `${progress}%` }}></div>
+            <div className="text-xs text-red-500 mb-1 uppercase tracking-widest font-bold">Question {quizStep + 1} of {QUIZ_QUESTIONS.length}</div>
+            <div className="h-2 bg-slate-950 rounded-full overflow-hidden border border-red-900/30">
+              <div className="h-full bg-gradient-to-r from-red-500 to-red-700 transition-all duration-500" style={{ width: `${progress}%` }}></div>
             </div>
           </div>
         </div>
 
         <div className="pt-6 pb-4">
           <h2 className="text-2xl font-black mb-2">{q.question}</h2>
-          <p className="text-sm text-slate-400">{q.subtitle}</p>
+          <p className="text-sm text-slate-500">{q.subtitle}</p>
         </div>
 
         <div className="space-y-3 flex-1">
@@ -1132,10 +1161,10 @@ export default function GymQuest() {
             <button
               key={idx}
               onClick={() => answerQuiz(opt)}
-              className="w-full bg-slate-800 hover:bg-slate-700 border-2 border-slate-700 hover:border-yellow-500 rounded-2xl p-4 text-left transition-all active:scale-[0.98]"
+              className="w-full bg-slate-950 hover:bg-red-950/40 border border-red-900/30 hover:border-red-500 rounded-2xl p-4 text-left transition-all active:scale-[0.98]"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-sm font-bold text-slate-300">
+                <div className="w-8 h-8 rounded-full bg-red-950/60 border border-red-800/50 flex items-center justify-center text-sm font-bold text-red-300">
                   {String.fromCharCode(65 + idx)}
                 </div>
                 <span className="font-semibold">{opt.label}</span>
@@ -1147,24 +1176,23 @@ export default function GymQuest() {
     );
   }
 
-  // RECOMMENDATION
   if (view === 'recommendation' && recommendation) {
     const rec = DIFFICULTY[recommendation.winner];
     const DIcon = rec.icon;
     const total = recommendation.totals.beginner + recommendation.totals.intermediate + recommendation.totals.expert;
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 flex flex-col">
+      <div className="min-h-screen bg-black text-white p-4 flex flex-col">
         <div className="text-center pt-8 pb-4">
-          <div className="text-xs text-slate-400 uppercase tracking-wider mb-2">Your Recommended Class</div>
-          <div className={`inline-block bg-gradient-to-br ${rec.color} p-6 rounded-3xl mb-4 shadow-2xl`}>
+          <div className="text-xs text-red-500 uppercase tracking-widest mb-2 font-bold">Your Recommended Class</div>
+          <div className={`inline-block bg-gradient-to-br ${rec.color} p-6 rounded-3xl mb-4 shadow-2xl shadow-red-950/50 border border-red-500/30`}>
             <DIcon size={56} className="text-white" />
           </div>
-          <h1 className="text-4xl font-black mb-1">{rec.name}</h1>
-          <p className="text-slate-400">{rec.subtitle}</p>
+          <h1 className="text-4xl font-black mb-1 tracking-tight">{rec.name}</h1>
+          <p className="text-slate-500">{rec.subtitle}</p>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-700">
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-4 mb-4">
           <p className="text-sm text-slate-300 mb-4">{rec.description}</p>
           <div className="space-y-2">
             {Object.entries(recommendation.totals).sort((a, b) => b[1] - a[1]).map(([tier, score]) => {
@@ -1174,14 +1202,14 @@ export default function GymQuest() {
               return (
                 <div key={tier}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className={isWinner ? "font-bold text-yellow-400" : "text-slate-400"}>
-                      {config.name} {isWinner && "- You"}
+                    <span className={isWinner ? "font-bold text-red-400" : "text-slate-500"}>
+                      {config.name} {isWinner && "— You"}
                     </span>
-                    <span className={isWinner ? "font-bold text-yellow-400" : "text-slate-400"}>
+                    <span className={isWinner ? "font-bold text-red-400" : "text-slate-500"}>
                       {Math.round(percent)}%
                     </span>
                   </div>
-                  <div className="h-2 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-2 bg-black rounded-full overflow-hidden">
                     <div className={`h-full bg-gradient-to-r ${config.color} transition-all duration-700`} style={{ width: `${percent}%` }}></div>
                   </div>
                 </div>
@@ -1193,13 +1221,13 @@ export default function GymQuest() {
         <div className="flex-1"></div>
 
         <div className="space-y-2 pb-4">
-          <button onClick={() => startGame(recommendation.winner)} className={`w-full bg-gradient-to-r ${rec.color} text-white font-bold py-4 rounded-xl shadow-xl hover:brightness-110`}>
-            BEGIN AS {rec.name.toUpperCase()}
+          <button onClick={() => startGame(recommendation.winner)} className={`w-full bg-gradient-to-r ${rec.color} text-white font-bold py-4 rounded-xl shadow-xl shadow-red-950/50 hover:brightness-110 uppercase tracking-wider`}>
+            Begin as {rec.name}
           </button>
-          <button onClick={() => setView('manualSelect')} className="w-full bg-slate-800 text-slate-300 font-semibold py-3 rounded-xl hover:bg-slate-700">
+          <button onClick={() => setView('manualSelect')} className="w-full bg-slate-950 border border-red-900/30 text-slate-300 font-semibold py-3 rounded-xl hover:bg-red-950/40">
             Choose a different class
           </button>
-          <button onClick={() => { setQuizStep(0); setQuizAnswers({}); setView('quiz'); }} className="w-full text-slate-500 text-sm py-2 hover:text-slate-300">
+          <button onClick={() => { setQuizStep(0); setQuizAnswers({}); setView('quiz'); }} className="w-full text-slate-500 text-sm py-2 hover:text-red-400">
             Retake quiz
           </button>
         </div>
@@ -1207,12 +1235,11 @@ export default function GymQuest() {
     );
   }
 
-  // MANUAL SELECT
   if (view === 'manualSelect') {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 flex flex-col">
+      <div className="min-h-screen bg-black text-white p-4 flex flex-col">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={() => setView(recommendation ? 'recommendation' : 'intro')} className="bg-slate-800 rounded-full p-2">
+          <button onClick={() => setView(recommendation ? 'recommendation' : 'intro')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <h2 className="text-xl font-bold">Choose Your Class</h2>
@@ -1223,19 +1250,19 @@ export default function GymQuest() {
             const DIcon = d.icon;
             const isRecommended = recommendation && recommendation.winner === key;
             return (
-              <button key={key} onClick={() => startGame(key)} className={`w-full bg-gradient-to-br ${d.color} rounded-2xl p-5 text-left shadow-xl hover:scale-[1.02] transition-transform relative overflow-hidden`}>
+              <button key={key} onClick={() => startGame(key)} className={`w-full bg-gradient-to-br ${d.color} rounded-2xl p-5 text-left shadow-xl shadow-red-950/50 border border-red-500/30 hover:scale-[1.02] transition-transform relative overflow-hidden`}>
                 {isRecommended && (
-                  <div className="absolute top-2 right-2 bg-black/40 rounded-full px-2 py-0.5 text-xs font-bold">
+                  <div className="absolute top-2 right-2 bg-black/60 rounded-full px-2 py-0.5 text-xs font-bold uppercase tracking-wider">
                     Recommended
                   </div>
                 )}
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="bg-black/30 rounded-xl p-2">
+                  <div className="bg-black/40 rounded-xl p-2">
                     <DIcon size={24} />
                   </div>
                   <div>
-                    <div className="text-xl font-black">{d.name}</div>
-                    <div className="text-xs opacity-80">{d.subtitle}</div>
+                    <div className="text-xl font-black tracking-tight">{d.name}</div>
+                    <div className="text-xs opacity-80 uppercase tracking-wider">{d.subtitle}</div>
                   </div>
                 </div>
                 <p className="text-sm opacity-90">{d.description}</p>
@@ -1247,39 +1274,38 @@ export default function GymQuest() {
     );
   }
 
-  // BODY STATS
   if (view === 'bodyStats') {
     const preview = calculateMacros(bodyStats, difficulty);
     const canSubmit = bodyStats.weight && bodyStats.height && bodyStats.age;
     const isMetric = bodyStats.unit === 'metric';
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 flex flex-col pb-24">
+      <div className="min-h-screen bg-black text-white p-4 flex flex-col pb-24">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={() => setView(editingBody ? 'nutrition' : 'manualSelect')} className="bg-slate-800 rounded-full p-2">
+          <button onClick={() => setView(editingBody ? 'nutrition' : 'manualSelect')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <h2 className="text-xl font-bold">{editingBody ? 'Update Body Stats' : 'Tell us about you'}</h2>
         </div>
 
-        <p className="text-sm text-slate-400 mb-4">
+        <p className="text-sm text-slate-500 mb-4">
           We'll calculate your personalized calorie and protein targets.
         </p>
 
-        <div className="bg-slate-800 rounded-full p-1 flex mb-4 w-fit">
-          <button onClick={() => setBodyStats({ ...bodyStats, unit: 'imperial' })} className={`px-4 py-1.5 rounded-full text-sm font-bold ${!isMetric ? 'bg-yellow-500 text-black' : 'text-slate-400'}`}>
+        <div className="bg-slate-950 border border-red-900/30 rounded-full p-1 flex mb-4 w-fit">
+          <button onClick={() => setBodyStats({ ...bodyStats, unit: 'imperial' })} className={`px-4 py-1.5 rounded-full text-sm font-bold ${!isMetric ? 'bg-red-600 text-white' : 'text-slate-500'}`}>
             lbs / in
           </button>
-          <button onClick={() => setBodyStats({ ...bodyStats, unit: 'metric' })} className={`px-4 py-1.5 rounded-full text-sm font-bold ${isMetric ? 'bg-yellow-500 text-black' : 'text-slate-400'}`}>
+          <button onClick={() => setBodyStats({ ...bodyStats, unit: 'metric' })} className={`px-4 py-1.5 rounded-full text-sm font-bold ${isMetric ? 'bg-red-600 text-white' : 'text-slate-500'}`}>
             kg / cm
           </button>
         </div>
 
         <div className="mb-3">
-          <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Sex (for BMR formula)</label>
+          <label className="text-xs text-red-500 uppercase tracking-widest mb-2 block font-bold">Sex (for BMR formula)</label>
           <div className="grid grid-cols-2 gap-2">
             {['male', 'female'].map(s => (
-              <button key={s} onClick={() => setBodyStats({ ...bodyStats, sex: s })} className={`py-3 rounded-xl font-bold capitalize ${bodyStats.sex === s ? 'bg-yellow-500 text-black' : 'bg-slate-800 text-slate-300'}`}>
+              <button key={s} onClick={() => setBodyStats({ ...bodyStats, sex: s })} className={`py-3 rounded-xl font-bold capitalize ${bodyStats.sex === s ? 'bg-red-600 text-white' : 'bg-slate-950 border border-red-900/30 text-slate-400'}`}>
                 {s}
               </button>
             ))}
@@ -1288,23 +1314,23 @@ export default function GymQuest() {
 
         <div className="grid grid-cols-3 gap-2 mb-3">
           <div>
-            <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Age</label>
+            <label className="text-xs text-red-500 uppercase tracking-widest mb-2 block font-bold">Age</label>
             <input type="number" inputMode="numeric" value={bodyStats.age}
               onChange={(e) => setBodyStats({ ...bodyStats, age: e.target.value })}
               placeholder="20"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-3 text-white text-lg focus:border-yellow-500 outline-none" />
+              className="w-full bg-slate-950 border border-red-900/30 rounded-xl px-3 py-3 text-white text-lg focus:border-red-500 outline-none" />
           </div>
           {isMetric ? (
             <div>
-              <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Height (cm)</label>
+              <label className="text-xs text-red-500 uppercase tracking-widest mb-2 block font-bold">Height (cm)</label>
               <input type="number" inputMode="numeric" value={bodyStats.height}
                 onChange={(e) => setBodyStats({ ...bodyStats, height: e.target.value })}
                 placeholder="178"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-3 text-white text-lg focus:border-yellow-500 outline-none" />
+                className="w-full bg-slate-950 border border-red-900/30 rounded-xl px-3 py-3 text-white text-lg focus:border-red-500 outline-none" />
             </div>
           ) : (
             <div>
-              <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Height</label>
+              <label className="text-xs text-red-500 uppercase tracking-widest mb-2 block font-bold">Height</label>
               <div className="flex gap-1">
                 <div className="flex-1 relative">
                   <input type="number" inputMode="numeric" value={bodyStats.heightFt || ''}
@@ -1315,8 +1341,8 @@ export default function GymQuest() {
                       setBodyStats({ ...bodyStats, heightFt: ft, height: totalIn ? totalIn.toString() : '' });
                     }}
                     placeholder="5"
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2 py-3 text-white text-lg focus:border-yellow-500 outline-none text-center" />
-                  <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-500 pointer-events-none">ft</span>
+                    className="w-full bg-slate-950 border border-red-900/30 rounded-xl px-2 py-3 text-white text-lg focus:border-red-500 outline-none text-center" />
+                  <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-600 pointer-events-none">ft</span>
                 </div>
                 <div className="flex-1 relative">
                   <input type="number" inputMode="numeric" value={bodyStats.heightIn || ''}
@@ -1328,32 +1354,26 @@ export default function GymQuest() {
                     }}
                     placeholder="10"
                     max="11"
-                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2 py-3 text-white text-lg focus:border-yellow-500 outline-none text-center" />
-                  <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-500 pointer-events-none">in</span>
+                    className="w-full bg-slate-950 border border-red-900/30 rounded-xl px-2 py-3 text-white text-lg focus:border-red-500 outline-none text-center" />
+                  <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-600 pointer-events-none">in</span>
                 </div>
               </div>
             </div>
           )}
           <div>
-            <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Weight ({isMetric ? 'kg' : 'lbs'})</label>
+            <label className="text-xs text-red-500 uppercase tracking-widest mb-2 block font-bold">Weight ({isMetric ? 'kg' : 'lbs'})</label>
             <input type="number" inputMode="numeric" value={bodyStats.weight}
               onChange={(e) => setBodyStats({ ...bodyStats, weight: e.target.value })}
               placeholder={isMetric ? "75" : "165"}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-3 text-white text-lg focus:border-yellow-500 outline-none" />
+              className="w-full bg-slate-950 border border-red-900/30 rounded-xl px-3 py-3 text-white text-lg focus:border-red-500 outline-none" />
           </div>
         </div>
 
-        {!isMetric && (
-          <div className="text-xs text-slate-500 mb-3">
-            Example: 5 ft, 10 in for someone who is 5'10"
-          </div>
-        )}
-
         <div className="mb-4">
-          <label className="text-xs text-slate-400 uppercase tracking-wider mb-2 block">Primary Goal</label>
+          <label className="text-xs text-red-500 uppercase tracking-widest mb-2 block font-bold">Primary Goal</label>
           <div className="grid grid-cols-2 gap-2">
             {Object.entries(GOAL_LABELS).map(([key, label]) => (
-              <button key={key} onClick={() => setBodyStats({ ...bodyStats, goal: key })} className={`py-3 px-2 rounded-xl font-semibold text-sm ${bodyStats.goal === key ? 'bg-yellow-500 text-black' : 'bg-slate-800 text-slate-300'}`}>
+              <button key={key} onClick={() => setBodyStats({ ...bodyStats, goal: key })} className={`py-3 px-2 rounded-xl font-semibold text-sm ${bodyStats.goal === key ? 'bg-red-600 text-white' : 'bg-slate-950 border border-red-900/30 text-slate-400'}`}>
                 {label}
               </button>
             ))}
@@ -1361,20 +1381,20 @@ export default function GymQuest() {
         </div>
 
         {preview && (
-          <div className="bg-gradient-to-br from-green-600/30 to-emerald-600/30 border border-green-500/30 rounded-2xl p-4 mb-4">
-            <div className="text-xs uppercase tracking-wider text-green-300 mb-2 font-bold">Your Targets</div>
+          <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-900/50 rounded-2xl p-4 mb-4">
+            <div className="text-xs uppercase tracking-widest text-red-500 mb-2 font-bold">Your Targets</div>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
-                <div className="text-xs text-slate-300">Daily Calories</div>
-                <div className="text-2xl font-black text-green-300">{preview.calorieTarget}</div>
+                <div className="text-xs text-slate-400">Daily Calories</div>
+                <div className="text-2xl font-black text-red-300">{preview.calorieTarget}</div>
               </div>
               <div>
-                <div className="text-xs text-slate-300">Daily Protein</div>
-                <div className="text-2xl font-black text-pink-300">{preview.proteinTarget}g</div>
+                <div className="text-xs text-slate-400">Daily Protein</div>
+                <div className="text-2xl font-black text-red-400">{preview.proteinTarget}g</div>
               </div>
             </div>
-            <div className="text-xs text-slate-400">
-              BMR: {preview.bmr} cal. TDEE: {preview.tdee} cal. Goal: {GOAL_LABELS[bodyStats.goal]}
+            <div className="text-xs text-slate-500">
+              BMR: {preview.bmr} · TDEE: {preview.tdee} · Goal: {GOAL_LABELS[bodyStats.goal]}
             </div>
           </div>
         )}
@@ -1383,86 +1403,85 @@ export default function GymQuest() {
 
         <button onClick={() => { if (editingBody) { setEditingBody(false); setView('nutrition'); } else { actuallyStartGame(difficulty); } }}
           disabled={!canSubmit}
-          className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-4 rounded-xl disabled:opacity-40 hover:brightness-110 mb-2">
-          {editingBody ? 'SAVE CHANGES' : 'BEGIN QUEST'}
+          className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold py-4 rounded-xl disabled:opacity-40 hover:brightness-110 mb-2 uppercase tracking-wider shadow-lg shadow-red-950/50">
+          {editingBody ? 'Save Changes' : 'Begin'}
         </button>
 
         {!editingBody && (
-          <button onClick={() => actuallyStartGame(difficulty)} className="w-full text-slate-500 text-sm py-2 hover:text-slate-300">
-            Skip - use class defaults
+          <button onClick={() => actuallyStartGame(difficulty)} className="w-full text-slate-500 text-sm py-2 hover:text-red-400">
+            Skip — use class defaults
           </button>
         )}
       </div>
     );
   }
 
-  // BOSS VIEW
   if (view === 'boss') {
     const boss = currentBoss || pickBossForWeek(weekNumber);
     const bossHp = currentBoss?.currentHp ?? boss.hp;
     const hpPct = (bossHp / boss.hp) * 100;
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pb-8">
+      <div className="min-h-screen bg-black text-white p-4 pb-8">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={() => setView('home')} className="bg-slate-800 rounded-full p-2">
+          <button onClick={() => setView('home')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <h2 className="text-xl font-bold flex items-center gap-2">
-            <Skull size={20} className="text-red-400" />
+            <Skull size={20} className="text-red-500" />
             Weekly Boss
           </h2>
         </div>
 
-        <div className="bg-gradient-to-br from-red-900 via-purple-900 to-slate-900 rounded-3xl p-8 mb-4 text-center border-2 border-red-500/50 shadow-2xl">
-          <div className="text-6xl font-black mb-3 text-red-200">{boss.emoji}</div>
-          <h1 className="text-3xl font-black text-red-100 mb-1">{boss.name}</h1>
-          <div className="text-sm text-red-300 italic mb-4">{boss.flavor}</div>
+        <div className="bg-gradient-to-br from-red-950 via-black to-black rounded-3xl p-8 mb-4 text-center border-2 border-red-500/50 shadow-2xl shadow-red-950">
+          <div className="text-6xl font-black mb-3 text-red-400">{boss.emoji}</div>
+          <h1 className="text-3xl font-black text-red-100 mb-1 tracking-tight">{boss.name}</h1>
+          <div className="text-sm text-red-400 italic mb-4">{boss.flavor}</div>
 
-          <div className="bg-black/60 rounded-2xl p-3 mb-3">
+          <div className="bg-black/80 rounded-2xl p-3 mb-3 border border-red-900/50">
             <div className="flex items-center gap-2 mb-2">
-              <Heart size={16} className="text-red-400" fill="currentColor" />
-              <span className="text-xs font-bold text-red-300 uppercase tracking-wider">Boss HP</span>
+              <Heart size={16} className="text-red-500" fill="currentColor" />
+              <span className="text-xs font-bold text-red-400 uppercase tracking-widest">Boss HP</span>
               <span className="ml-auto font-black">{bossHp} / {boss.hp}</span>
             </div>
-            <div className="h-4 bg-slate-900 rounded-full overflow-hidden border border-red-500/30">
-              <div className="h-full bg-gradient-to-r from-red-600 to-red-400 transition-all duration-500" style={{ width: `${hpPct}%` }}></div>
+            <div className="h-4 bg-black rounded-full overflow-hidden border border-red-900/50">
+              <div className="h-full bg-gradient-to-r from-red-700 to-red-500 transition-all duration-500" style={{ width: `${hpPct}%` }}></div>
             </div>
           </div>
 
-          <div className="bg-yellow-500/20 rounded-xl p-2 text-sm">
-            <Trophy size={14} className="inline mr-1 text-yellow-400" />
-            Reward: <span className="font-bold text-yellow-300">+{boss.reward} XP</span>
+          <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-2 text-sm">
+            <Trophy size={14} className="inline mr-1 text-red-400" />
+            Reward: <span className="font-bold text-red-300">+{boss.reward} XP</span>
           </div>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-4 border border-slate-700 mb-4">
-          <div className="text-xs uppercase tracking-wider text-slate-400 mb-3 font-bold">How to Fight</div>
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-4 mb-4">
+          <div className="text-xs uppercase tracking-widest text-red-500 mb-3 font-bold">How to Fight</div>
           <div className="space-y-2 text-sm">
             <div className="flex items-start gap-2">
-              <Dumbbell size={16} className="text-orange-400 mt-0.5" />
+              <Dumbbell size={16} className="text-red-400 mt-0.5" />
               <div>
                 <span className="font-bold">Complete workouts</span>
-                <div className="text-xs text-slate-400">Deal damage equal to half your XP earned</div>
+                <div className="text-xs text-slate-500">Deal damage equal to half your XP earned</div>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <Apple size={16} className="text-green-400 mt-0.5" />
+              <Apple size={16} className="text-red-400 mt-0.5" />
               <div>
                 <span className="font-bold">Hit your protein goal</span>
-                <div className="text-xs text-slate-400">Deal 80 damage per day you hit target</div>
+                <div className="text-xs text-slate-500">Deal 80 damage per day you hit target</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-4 border border-slate-700">
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-4">
           <div className="flex items-center justify-between mb-2">
-            <div className="text-xs uppercase tracking-wider text-slate-400 font-bold">Boss Record</div>
-            <div className="text-xs text-slate-500">Week {weekNumber + 1}</div>
+            <div className="text-xs uppercase tracking-widest text-red-500 font-bold">Boss Record</div>
+            <div className="text-xs text-slate-600">Week {weekNumber + 1}</div>
           </div>
           <div className="flex items-center gap-3">
-            <Trophy size={24} className="text-yellow-400" />
+            <Trophy size={24} className="text-red-500" />
             <div>
               <div className="font-bold">{bossesDefeated} Bosses Defeated</div>
             </div>
@@ -1472,27 +1491,26 @@ export default function GymQuest() {
     );
   }
 
-  // ACHIEVEMENTS VIEW
   if (view === 'achievements') {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pb-8">
+      <div className="min-h-screen bg-black text-white p-4 pb-8">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={() => setView('home')} className="bg-slate-800 rounded-full p-2">
+          <button onClick={() => setView('home')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <h2 className="text-xl font-bold flex items-center gap-2">
-            <Medal size={20} className="text-yellow-400" />
+            <Medal size={20} className="text-red-500" />
             Achievements
           </h2>
         </div>
 
-        <div className="bg-gradient-to-br from-yellow-600/20 to-orange-600/20 border border-yellow-500/30 rounded-2xl p-4 mb-4">
+        <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-900/50 rounded-2xl p-4 mb-4">
           <div className="flex justify-between text-xs mb-1">
-            <span className="text-yellow-300 font-bold uppercase tracking-wider">Progress</span>
+            <span className="text-red-400 font-bold uppercase tracking-widest">Progress</span>
             <span className="font-bold">{unlockedAchievements.length} / {ACHIEVEMENTS.length}</span>
           </div>
-          <div className="h-3 bg-black/40 rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 transition-all duration-500"
+          <div className="h-3 bg-black/60 rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-red-500 to-red-700 transition-all duration-500"
               style={{ width: `${(unlockedAchievements.length / ACHIEVEMENTS.length) * 100}%` }}></div>
           </div>
         </div>
@@ -1501,11 +1519,11 @@ export default function GymQuest() {
           {ACHIEVEMENTS.map(ach => {
             const unlocked = unlockedAchievements.includes(ach.id);
             return (
-              <div key={ach.id} className={`rounded-xl p-3 border ${unlocked ? 'bg-gradient-to-br from-yellow-600/30 to-orange-600/30 border-yellow-500/50' : 'bg-slate-800 border-slate-700 opacity-50'}`}>
-                <div className="text-xl mb-1">{unlocked ? <Trophy size={20} className="text-yellow-400" /> : <Shield size={20} className="text-slate-500" />}</div>
+              <div key={ach.id} className={`rounded-xl p-3 border ${unlocked ? 'bg-gradient-to-br from-red-950/60 to-black border-red-500/50' : 'bg-slate-950 border-red-900/20 opacity-40'}`}>
+                <div className="mb-1">{unlocked ? <Trophy size={20} className="text-red-400" /> : <Shield size={20} className="text-slate-600" />}</div>
                 <div className="font-bold text-sm">{ach.name}</div>
-                <div className="text-xs text-slate-400 mb-1">{ach.desc}</div>
-                <div className="text-xs text-yellow-400 font-bold">+{ach.xp} XP</div>
+                <div className="text-xs text-slate-500 mb-1">{ach.desc}</div>
+                <div className="text-xs text-red-400 font-bold">+{ach.xp} XP</div>
               </div>
             );
           })}
@@ -1514,7 +1532,6 @@ export default function GymQuest() {
     );
   }
 
-  // STATS VIEW
   if (view === 'stats') {
     const weightData = [...weightLog].sort((a, b) => new Date(a.date) - new Date(b.date));
     const weights = weightData.map(w => w.weight);
@@ -1546,68 +1563,68 @@ export default function GymQuest() {
     const maxTypeCount = Math.max(...Object.values(byType), 1);
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pb-24">
+      <div className="min-h-screen bg-black text-white p-4 pb-24">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={() => setView('home')} className="bg-slate-800 rounded-full p-2">
+          <button onClick={() => setView('home')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <h2 className="text-xl font-bold flex items-center gap-2">
-            <BarChart3 size={20} className="text-cyan-400" />
+            <BarChart3 size={20} className="text-red-500" />
             Stats
           </h2>
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-4">
-          <div className="bg-slate-800 rounded-xl p-3 border border-slate-700">
-            <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Total Workouts</div>
-            <div className="text-2xl font-black text-cyan-400">{playerData.totalWorkouts}</div>
+          <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3">
+            <div className="text-xs text-slate-500 uppercase tracking-widest mb-1 font-bold">Total Workouts</div>
+            <div className="text-2xl font-black text-red-400">{playerData.totalWorkouts}</div>
           </div>
-          <div className="bg-slate-800 rounded-xl p-3 border border-slate-700">
-            <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Current Streak</div>
-            <div className="text-2xl font-black text-orange-400 flex items-center gap-1">
+          <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3">
+            <div className="text-xs text-slate-500 uppercase tracking-widest mb-1 font-bold">Current Streak</div>
+            <div className="text-2xl font-black text-red-500 flex items-center gap-1">
               {playerData.streak} <Flame size={18} />
             </div>
           </div>
-          <div className="bg-slate-800 rounded-xl p-3 border border-slate-700">
-            <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Best Streak</div>
-            <div className="text-2xl font-black text-yellow-400">{playerData.bestStreak || 0}</div>
+          <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3">
+            <div className="text-xs text-slate-500 uppercase tracking-widest mb-1 font-bold">Best Streak</div>
+            <div className="text-2xl font-black text-red-400">{playerData.bestStreak || 0}</div>
           </div>
-          <div className="bg-slate-800 rounded-xl p-3 border border-slate-700">
-            <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Knockouts</div>
-            <div className="text-2xl font-black text-red-400">{playerData.knockouts || 0}</div>
+          <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3">
+            <div className="text-xs text-slate-500 uppercase tracking-widest mb-1 font-bold">Knockouts</div>
+            <div className="text-2xl font-black text-red-600">{playerData.knockouts || 0}</div>
           </div>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-700">
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-4 mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Calendar size={16} className="text-yellow-400" />
+            <Calendar size={16} className="text-red-500" />
             <h3 className="font-bold text-sm">Last 7 Days XP</h3>
-            <div className="flex-1 text-right text-xs text-slate-400">
+            <div className="flex-1 text-right text-xs text-slate-500">
               Total: {weeklyXP.reduce((a, b) => a + b, 0)} XP
             </div>
           </div>
           <div className="flex items-end gap-2 h-32">
             {weeklyXP.map((xp, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                <div className="text-xs text-slate-400 font-mono">{xp > 0 ? xp : ''}</div>
+                <div className="text-xs text-slate-500 font-mono">{xp > 0 ? xp : ''}</div>
                 <div className="flex-1 w-full flex items-end">
-                  <div className={`w-full rounded-t transition-all ${xp > 0 ? 'bg-gradient-to-t from-yellow-500 to-orange-400' : 'bg-slate-700'}`}
+                  <div className={`w-full rounded-t transition-all ${xp > 0 ? 'bg-gradient-to-t from-red-700 to-red-500' : 'bg-slate-900'}`}
                     style={{ height: `${Math.max(4, (xp / maxDayXP) * 100)}%` }}></div>
                 </div>
-                <div className="text-xs text-slate-500">{dayLabels[i]}</div>
+                <div className="text-xs text-slate-600">{dayLabels[i]}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-700">
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-4 mb-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Scale size={16} className="text-cyan-400" />
+              <Scale size={16} className="text-red-500" />
               <h3 className="font-bold text-sm">Weight Trend</h3>
             </div>
             {weightData.length >= 2 && (
-              <div className={`text-xs font-bold flex items-center gap-1 ${weightChange > 0 ? 'text-orange-400' : weightChange < 0 ? 'text-green-400' : 'text-slate-400'}`}>
+              <div className={`text-xs font-bold flex items-center gap-1 ${weightChange > 0 ? 'text-red-400' : weightChange < 0 ? 'text-green-400' : 'text-slate-500'}`}>
                 {weightChange > 0 ? <TrendingUp size={14} /> : weightChange < 0 ? <TrendingDown size={14} /> : null}
                 {weightChange > 0 ? '+' : ''}{weightChange.toFixed(1)} {weightData[0].unit === 'metric' ? 'kg' : 'lbs'}
               </div>
@@ -1615,69 +1632,69 @@ export default function GymQuest() {
           </div>
 
           {weightData.length === 0 ? (
-            <div className="text-center text-slate-500 text-sm py-6">
+            <div className="text-center text-slate-600 text-sm py-6">
               No weigh-ins yet. Log one below.
             </div>
           ) : weightData.length === 1 ? (
             <div className="text-center py-4">
-              <div className="text-3xl font-black text-cyan-300">{weightData[0].weight}</div>
-              <div className="text-xs text-slate-400">
+              <div className="text-3xl font-black text-red-400">{weightData[0].weight}</div>
+              <div className="text-xs text-slate-500">
                 {weightData[0].unit === 'metric' ? 'kg' : 'lbs'}
               </div>
             </div>
           ) : (
             <div className="relative h-32 mb-2">
               <svg className="w-full h-full" viewBox={`0 0 ${weightData.length * 40} 100`} preserveAspectRatio="none">
-                <polyline fill="none" stroke="#22d3ee" strokeWidth="2"
+                <polyline fill="none" stroke="#ef4444" strokeWidth="2"
                   points={weightData.map((w, i) => `${i * 40 + 20},${100 - ((w.weight - minW) / wRange) * 80 - 10}`).join(' ')} />
                 {weightData.map((w, i) => (
-                  <circle key={i} cx={i * 40 + 20} cy={100 - ((w.weight - minW) / wRange) * 80 - 10} r="3" fill="#22d3ee" />
+                  <circle key={i} cx={i * 40 + 20} cy={100 - ((w.weight - minW) / wRange) * 80 - 10} r="3" fill="#ef4444" />
                 ))}
               </svg>
-              <div className="flex justify-between text-xs text-slate-500 mt-1">
+              <div className="flex justify-between text-xs text-slate-600 mt-1">
                 <span>{weightData[0].weight}</span>
                 <span>{latestWeight}</span>
               </div>
             </div>
           )}
 
-          <div className="bg-slate-900 rounded-xl p-3 mt-3">
-            <div className="text-xs text-slate-400 uppercase tracking-wider mb-2">Log Weigh-in</div>
+          <div className="bg-black border border-red-900/30 rounded-xl p-3 mt-3">
+            <div className="text-xs text-red-500 uppercase tracking-widest mb-2 font-bold">Log Weigh-in</div>
             <div className="flex gap-2 mb-2">
               <input type="number" step="0.1" placeholder={`Weight (${bodyStats.unit === 'metric' ? 'kg' : 'lbs'})`}
                 value={newWeight} onChange={(e) => setNewWeight(e.target.value)}
-                className="flex-1 bg-slate-800 rounded-lg px-3 py-2 text-sm" />
+                className="flex-1 bg-slate-950 border border-red-900/30 rounded-lg px-3 py-2 text-sm" />
               <input type="number" step="0.1" placeholder="BF% (opt)"
                 value={newBodyFat} onChange={(e) => setNewBodyFat(e.target.value)}
-                className="w-24 bg-slate-800 rounded-lg px-3 py-2 text-sm" />
+                className="w-24 bg-slate-950 border border-red-900/30 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div className="flex gap-2 mb-2 items-center">
               <input type="number" step="0.1" placeholder={`Goal weight (optional)`}
                 value={goalWeight} onChange={(e) => setGoalWeight(e.target.value)}
-                className="flex-1 bg-slate-800 rounded-lg px-3 py-2 text-sm" />
+                className="flex-1 bg-slate-950 border border-red-900/30 rounded-lg px-3 py-2 text-sm" />
             </div>
             <button onClick={logWeight} disabled={!newWeight}
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold py-2 rounded-lg disabled:opacity-40 text-sm">
-              LOG WEIGH-IN (+25 XP)
+              className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold py-2 rounded-lg disabled:opacity-40 text-sm uppercase tracking-wider">
+              Log Weigh-in (+25 XP)
             </button>
           </div>
         </div>
 
         {weightData.length > 0 && (
-          <div className="bg-slate-800 rounded-2xl p-3 mb-4 border border-slate-700">
-            <div className="text-xs uppercase tracking-wider text-slate-400 mb-2 font-bold">History</div>
+          <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-3 mb-4">
+            <div className="text-xs uppercase tracking-widest text-red-500 mb-2 font-bold">History</div>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {[...weightData].reverse().map(w => (
-                <div key={w.date} className="bg-slate-900 rounded-lg p-2 flex items-center justify-between text-sm">
+                <div key={w.date} className="bg-black/60 rounded-lg p-2 flex items-center justify-between text-sm">
                   <div>
                     <span className="font-bold">{w.weight} {w.unit === 'metric' ? 'kg' : 'lbs'}</span>
-                    {w.bodyFat && <span className="text-slate-400 ml-2">{w.bodyFat}% BF</span>}
+                    {w.bodyFat && <span className="text-slate-500 ml-2">{w.bodyFat}% BF</span>}
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-slate-600">
                       {new Date(w.date).toLocaleDateString('en', { month: 'short', day: 'numeric' })}
                     </span>
-                    <button onClick={() => removeWeightEntry(w.date)} className="text-red-400">
+                    <button onClick={() => removeWeightEntry(w.date)} className="text-red-500">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -1688,9 +1705,9 @@ export default function GymQuest() {
         )}
 
         {byTypeSorted.length > 0 && (
-          <div className="bg-slate-800 rounded-2xl p-4 border border-slate-700">
+          <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Dumbbell size={16} className="text-purple-400" />
+              <Dumbbell size={16} className="text-red-500" />
               <h3 className="font-bold text-sm">Workouts by Type</h3>
             </div>
             <div className="space-y-2">
@@ -1698,10 +1715,10 @@ export default function GymQuest() {
                 <div key={type}>
                   <div className="flex justify-between text-xs mb-1">
                     <span className="font-semibold">{type}</span>
-                    <span className="text-slate-400">{count}x</span>
+                    <span className="text-slate-500">{count}×</span>
                   </div>
-                  <div className="h-2 bg-slate-900 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                  <div className="h-2 bg-black rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-red-600 to-red-800"
                       style={{ width: `${(count / maxTypeCount) * 100}%` }}></div>
                   </div>
                 </div>
@@ -1713,7 +1730,6 @@ export default function GymQuest() {
     );
   }
 
-  // NUTRITION VIEW
   if (view === 'nutrition') {
     const targets = getNutritionTargets();
     const totals = getTodayTotals();
@@ -1723,33 +1739,33 @@ export default function GymQuest() {
     const filteredFoods = FOOD_DATABASE.filter(f => f.name.toLowerCase().includes(foodSearch.toLowerCase()));
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pb-24">
+      <div className="min-h-screen bg-black text-white p-4 pb-24">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <button onClick={() => setView('home')} className="bg-slate-800 rounded-full p-2">
+            <button onClick={() => setView('home')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
               <ArrowLeft size={20} />
             </button>
             <h2 className="text-xl font-bold flex items-center gap-2">
-              <Apple size={20} className="text-green-400" />
+              <Apple size={20} className="text-red-500" />
               Nutrition
             </h2>
           </div>
           <button onClick={() => { setEditingBody(true); setView('bodyStats'); }}
-            className="text-xs text-slate-400 hover:text-yellow-400 bg-slate-800 rounded-full px-3 py-1">
+            className="text-xs text-slate-500 hover:text-red-400 bg-slate-950 border border-red-900/30 rounded-full px-3 py-1">
             Body stats
           </button>
         </div>
 
-        <div className="bg-gradient-to-br from-green-600/30 to-emerald-600/30 border border-green-500/30 rounded-2xl p-4 mb-4">
-          <div className="text-xs uppercase tracking-wider text-green-300 mb-3 font-bold">Today's Totals</div>
+        <div className="bg-gradient-to-br from-red-950/60 to-black border border-red-900/50 rounded-2xl p-4 mb-4">
+          <div className="text-xs uppercase tracking-widest text-red-500 mb-3 font-bold">Today's Totals</div>
 
           <div className="mb-3">
             <div className="flex justify-between text-sm mb-1">
               <span className="font-semibold">Calories</span>
               <span><b>{totals.cal}</b> / {targets.calorieTarget}</span>
             </div>
-            <div className="h-3 bg-black/40 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full transition-all"
+            <div className="h-3 bg-black/60 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-red-500 to-red-700 rounded-full transition-all"
                 style={{ width: `${calPct}%` }}></div>
             </div>
           </div>
@@ -1759,19 +1775,19 @@ export default function GymQuest() {
               <span className="font-semibold">Protein</span>
               <span><b>{totals.protein}g</b> / {targets.proteinTarget}g</span>
             </div>
-            <div className="h-3 bg-black/40 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-red-400 to-pink-500 rounded-full transition-all"
+            <div className="h-3 bg-black/60 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-red-600 to-pink-600 rounded-full transition-all"
                 style={{ width: `${proteinPct}%` }}></div>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-center">
-            <div className="bg-black/20 rounded-lg p-2">
-              <div className="text-xs text-slate-300">Carbs</div>
+            <div className="bg-black/60 rounded-lg p-2">
+              <div className="text-xs text-slate-400">Carbs</div>
               <div className="font-bold">{totals.carbs}g</div>
             </div>
-            <div className="bg-black/20 rounded-lg p-2">
-              <div className="text-xs text-slate-300">Fat</div>
+            <div className="bg-black/60 rounded-lg p-2">
+              <div className="text-xs text-slate-400">Fat</div>
               <div className="font-bold">{totals.fat}g</div>
             </div>
           </div>
@@ -1779,56 +1795,56 @@ export default function GymQuest() {
 
         <div className="grid grid-cols-2 gap-2 mb-4">
           <button onClick={() => fileInputRef.current?.click()} disabled={photoAnalyzing}
-            className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-4 text-left disabled:opacity-60">
+            className="bg-gradient-to-br from-red-700 to-red-900 rounded-xl p-4 text-left disabled:opacity-60 border border-red-500/30">
             {photoAnalyzing ? <Loader className="animate-spin mb-1" size={20} /> : <Camera size={20} className="mb-1" />}
             <div className="font-bold text-sm">{photoAnalyzing ? "Analyzing..." : "Scan Photo"}</div>
             <div className="text-xs opacity-80">AI estimate</div>
           </button>
           <button onClick={() => setShowCustomFood(!showCustomFood)}
-            className="bg-slate-800 border border-slate-700 rounded-xl p-4 text-left">
-            <Plus size={20} className="mb-1 text-yellow-400" />
+            className="bg-slate-950 border border-red-900/30 rounded-xl p-4 text-left">
+            <Plus size={20} className="mb-1 text-red-500" />
             <div className="font-bold text-sm">Custom Entry</div>
-            <div className="text-xs text-slate-400">Enter manually</div>
+            <div className="text-xs text-slate-500">Enter manually</div>
           </button>
         </div>
 
         <input type="file" accept="image/*" ref={fileInputRef} onChange={handlePhotoUpload} className="hidden" />
 
         {photoError && (
-          <div className="bg-red-900/40 border border-red-500/50 rounded-xl p-3 mb-4 text-sm text-red-200 flex items-center justify-between">
+          <div className="bg-red-950/60 border border-red-500/50 rounded-xl p-3 mb-4 text-sm text-red-200 flex items-center justify-between">
             <span>{photoError}</span>
             <button onClick={() => setPhotoError(null)}><X size={14} /></button>
           </div>
         )}
 
         {showCustomFood && (
-          <div className="bg-slate-800 border border-yellow-500/50 rounded-2xl p-4 mb-4">
-            <div className="text-xs uppercase tracking-wider text-yellow-300 mb-2 font-bold">Add Custom Food</div>
+          <div className="bg-slate-950 border border-red-500/50 rounded-2xl p-4 mb-4">
+            <div className="text-xs uppercase tracking-widest text-red-500 mb-2 font-bold">Add Custom Food</div>
             <input type="text" placeholder="Food name" value={customFood.name}
               onChange={(e) => setCustomFood({ ...customFood, name: e.target.value })}
-              className="w-full bg-slate-900 rounded-lg px-3 py-2 mb-2 text-sm" />
+              className="w-full bg-black border border-red-900/30 rounded-lg px-3 py-2 mb-2 text-sm" />
             <div className="grid grid-cols-4 gap-2 mb-3">
               <input type="number" placeholder="Cal" value={customFood.cal}
                 onChange={(e) => setCustomFood({ ...customFood, cal: e.target.value })}
-                className="bg-slate-900 rounded-lg px-2 py-2 text-sm" />
+                className="bg-black border border-red-900/30 rounded-lg px-2 py-2 text-sm" />
               <input type="number" placeholder="P" value={customFood.protein}
                 onChange={(e) => setCustomFood({ ...customFood, protein: e.target.value })}
-                className="bg-slate-900 rounded-lg px-2 py-2 text-sm" />
+                className="bg-black border border-red-900/30 rounded-lg px-2 py-2 text-sm" />
               <input type="number" placeholder="C" value={customFood.carbs}
                 onChange={(e) => setCustomFood({ ...customFood, carbs: e.target.value })}
-                className="bg-slate-900 rounded-lg px-2 py-2 text-sm" />
+                className="bg-black border border-red-900/30 rounded-lg px-2 py-2 text-sm" />
               <input type="number" placeholder="F" value={customFood.fat}
                 onChange={(e) => setCustomFood({ ...customFood, fat: e.target.value })}
-                className="bg-slate-900 rounded-lg px-2 py-2 text-sm" />
+                className="bg-black border border-red-900/30 rounded-lg px-2 py-2 text-sm" />
             </div>
             <button onClick={addCustomFood} disabled={!customFood.name || !customFood.cal}
-              className="w-full bg-yellow-500 text-black font-bold py-2 rounded-lg disabled:opacity-40">ADD</button>
+              className="w-full bg-red-600 text-white font-bold py-2 rounded-lg disabled:opacity-40 uppercase tracking-wider">Add</button>
           </div>
         )}
 
-        <div className="bg-slate-800 rounded-2xl p-3 mb-4 border border-slate-700">
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-3 mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Search size={16} className="text-slate-400" />
+            <Search size={16} className="text-slate-500" />
             <input type="text" placeholder="Quick add from library..."
               value={foodSearch} onChange={(e) => setFoodSearch(e.target.value)}
               className="bg-transparent flex-1 text-sm outline-none" />
@@ -1836,32 +1852,32 @@ export default function GymQuest() {
           <div className="max-h-56 overflow-y-auto space-y-1">
             {filteredFoods.slice(0, 15).map((food, idx) => (
               <button key={idx} onClick={() => addMeal(food)}
-                className="w-full text-left bg-slate-900 hover:bg-slate-700 rounded-lg px-3 py-2 text-sm flex items-center justify-between">
+                className="w-full text-left bg-black hover:bg-red-950/40 rounded-lg px-3 py-2 text-sm flex items-center justify-between border border-transparent hover:border-red-900/50">
                 <div>
                   <div className="font-semibold">{food.name}</div>
-                  <div className="text-xs text-slate-400">{food.cal} cal. {food.protein}g P</div>
+                  <div className="text-xs text-slate-500">{food.cal} cal · {food.protein}g P</div>
                 </div>
-                <Plus size={14} className="text-green-400" />
+                <Plus size={14} className="text-red-500" />
               </button>
             ))}
           </div>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-3 border border-slate-700">
-          <div className="text-xs uppercase tracking-wider text-slate-400 mb-2 font-bold">Today's Log ({meals.length})</div>
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-3">
+          <div className="text-xs uppercase tracking-widest text-red-500 mb-2 font-bold">Today's Log ({meals.length})</div>
           {meals.length === 0 ? (
-            <div className="text-center text-slate-500 text-sm py-6">No meals logged yet today</div>
+            <div className="text-center text-slate-600 text-sm py-6">No meals logged yet today</div>
           ) : (
             <div className="space-y-2">
               {meals.map(meal => (
-                <div key={meal.id} className="bg-slate-900 rounded-lg p-3 flex items-center justify-between">
+                <div key={meal.id} className="bg-black/60 rounded-lg p-3 flex items-center justify-between border border-red-900/20">
                   <div className="flex-1">
                     <div className="font-semibold text-sm">{meal.name}</div>
-                    <div className="text-xs text-slate-400">
-                      {meal.cal} cal. {meal.protein}g P. {meal.carbs}g C. {meal.fat}g F
+                    <div className="text-xs text-slate-500">
+                      {meal.cal} cal · {meal.protein}g P · {meal.carbs}g C · {meal.fat}g F
                     </div>
                   </div>
-                  <button onClick={() => removeMeal(meal.id)} className="text-red-400 p-1">
+                  <button onClick={() => removeMeal(meal.id)} className="text-red-500 p-1">
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -1873,7 +1889,6 @@ export default function GymQuest() {
     );
   }
 
-  // BUILDER VIEW
   if (view === 'builder') {
     const filteredLibrary = Object.entries(EXERCISE_LIBRARY).map(([group, exs]) => ({
       group,
@@ -1881,9 +1896,9 @@ export default function GymQuest() {
     })).filter(g => g.exs.length > 0);
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pb-32">
+      <div className="min-h-screen bg-black text-white p-4 pb-32">
         <div className="flex items-center gap-3 mb-4">
-          <button onClick={() => setView('home')} className="bg-slate-800 rounded-full p-2">
+          <button onClick={() => setView('home')} className="bg-slate-950 border border-red-900/30 rounded-full p-2">
             <ArrowLeft size={20} />
           </button>
           <h2 className="text-xl font-bold">Create Custom Workout</h2>
@@ -1891,14 +1906,14 @@ export default function GymQuest() {
 
         <input type="text" placeholder="Workout name"
           value={builderName} onChange={(e) => setBuilderName(e.target.value)}
-          className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 mb-3 text-white" />
+          className="w-full bg-slate-950 border border-red-900/30 rounded-xl px-4 py-3 mb-3 text-white" />
 
         <div className="mb-3">
-          <div className="text-xs text-slate-400 mb-2 uppercase tracking-wider">Primary Stat</div>
+          <div className="text-xs text-red-500 mb-2 uppercase tracking-widest font-bold">Primary Stat</div>
           <div className="grid grid-cols-3 gap-2">
             {["STR", "END", "AGI"].map(s => (
               <button key={s} onClick={() => setBuilderStat(s)}
-                className={`py-2 rounded-xl font-bold ${builderStat === s ? 'bg-yellow-500 text-black' : 'bg-slate-800 text-slate-300'}`}>
+                className={`py-2 rounded-xl font-bold ${builderStat === s ? 'bg-red-600 text-white' : 'bg-slate-950 border border-red-900/30 text-slate-400'}`}>
                 {s}
               </button>
             ))}
@@ -1906,35 +1921,35 @@ export default function GymQuest() {
         </div>
 
         <div className="mb-4">
-          <div className="text-xs text-slate-400 mb-2 uppercase tracking-wider">
+          <div className="text-xs text-red-500 mb-2 uppercase tracking-widest font-bold">
             Exercises ({builderExercises.length})
           </div>
           <div className="space-y-2">
             {builderExercises.map((ex, idx) => (
-              <div key={idx} className="bg-slate-800 rounded-xl p-3">
+              <div key={idx} className="bg-slate-950 border border-red-900/30 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="font-semibold text-sm flex-1">{ex.name}</div>
-                  <button onClick={() => removeFromBuilder(idx)} className="text-red-400 p-1">
+                  <button onClick={() => removeFromBuilder(idx)} className="text-red-500 p-1">
                     <Trash2 size={16} />
                   </button>
                 </div>
                 <div className="flex gap-2">
                   <input type="number" value={ex.sets}
                     onChange={(e) => updateBuilderExercise(idx, 'sets', parseInt(e.target.value) || 1)}
-                    className="bg-slate-900 rounded-lg px-2 py-1 w-16 text-sm" />
-                  <span className="text-slate-400 self-center text-xs">sets x</span>
+                    className="bg-black border border-red-900/30 rounded-lg px-2 py-1 w-16 text-sm" />
+                  <span className="text-slate-500 self-center text-xs">sets ×</span>
                   <input type="text" value={ex.reps}
                     onChange={(e) => updateBuilderExercise(idx, 'reps', e.target.value)}
-                    className="bg-slate-900 rounded-lg px-2 py-1 flex-1 text-sm" />
+                    className="bg-black border border-red-900/30 rounded-lg px-2 py-1 flex-1 text-sm" />
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-slate-800 rounded-2xl p-3 border border-slate-700">
+        <div className="bg-slate-950 border border-red-900/30 rounded-2xl p-3">
           <div className="flex items-center gap-2 mb-3">
-            <Search size={16} className="text-slate-400" />
+            <Search size={16} className="text-slate-500" />
             <input type="text" placeholder="Search exercises..."
               value={librarySearch} onChange={(e) => setLibrarySearch(e.target.value)}
               className="bg-transparent flex-1 text-sm outline-none" />
@@ -1942,13 +1957,13 @@ export default function GymQuest() {
           <div className="max-h-80 overflow-y-auto space-y-3">
             {filteredLibrary.map(({ group, exs }) => (
               <div key={group}>
-                <div className="text-xs font-bold text-yellow-400 uppercase tracking-wider mb-1">{group}</div>
+                <div className="text-xs font-bold text-red-500 uppercase tracking-widest mb-1">{group}</div>
                 <div className="space-y-1">
                   {exs.map(name => (
                     <button key={name} onClick={() => addToBuilder(name)}
-                      className="w-full text-left bg-slate-900 hover:bg-slate-700 rounded-lg px-3 py-2 text-sm flex items-center justify-between">
+                      className="w-full text-left bg-black hover:bg-red-950/40 rounded-lg px-3 py-2 text-sm flex items-center justify-between border border-transparent hover:border-red-900/50">
                       <span>{name}</span>
-                      <Plus size={14} className="text-yellow-400" />
+                      <Plus size={14} className="text-red-500" />
                     </button>
                   ))}
                 </div>
@@ -1957,12 +1972,12 @@ export default function GymQuest() {
           </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 p-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-red-900/30 p-4">
           <div className="max-w-md mx-auto">
             <button onClick={saveCustomWorkout}
               disabled={!builderName.trim() || builderExercises.length === 0}
-              className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-3 rounded-xl disabled:opacity-40">
-              SAVE WORKOUT
+              className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold py-3 rounded-xl disabled:opacity-40 uppercase tracking-wider shadow-lg shadow-red-950/50">
+              Save Workout
             </button>
           </div>
         </div>
@@ -1970,7 +1985,6 @@ export default function GymQuest() {
     );
   }
 
-  // WORKOUT VIEW
   if (view === 'workout' && activeWorkout && workouts[activeWorkout]) {
     const workout = workouts[activeWorkout];
     const completedCount = Object.values(completedExercises).filter(Boolean).length;
@@ -1979,14 +1993,14 @@ export default function GymQuest() {
     const projectedXp = Math.round((50 + completedCount * 15 + (playerData.streak >= 3 ? 25 : 0)) * mult);
 
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-4 pb-24">
-        <div className={`bg-gradient-to-r ${workout.color} rounded-2xl p-5 mb-4 shadow-xl`}>
+      <div className="min-h-screen bg-black text-white p-4 pb-24">
+        <div className={`bg-gradient-to-r ${workout.color} rounded-2xl p-5 mb-4 shadow-xl shadow-red-950/50 border border-red-500/30`}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold">{workout.name}</h2>
-              <p className="text-sm opacity-90">Stat: +{workout.stat}</p>
+              <h2 className="text-2xl font-bold tracking-tight">{workout.name}</h2>
+              <p className="text-sm opacity-90 uppercase tracking-wider">Stat: +{workout.stat}</p>
             </div>
-            <button onClick={() => { setActiveWorkout(null); setView('home'); }} className="bg-black/30 rounded-full p-2">
+            <button onClick={() => { setActiveWorkout(null); setView('home'); }} className="bg-black/40 rounded-full p-2">
               <X size={20} />
             </button>
           </div>
@@ -1997,17 +2011,17 @@ export default function GymQuest() {
             const lastSession = exerciseHistory[ex.name]?.[exerciseHistory[ex.name].length - 1];
             const currentData = currentSetData[idx] || {};
             return (
-              <div key={idx} className={`rounded-xl p-3 transition-all ${completedExercises[idx] ? 'bg-green-600/30 border-2 border-green-500' : 'bg-slate-800 border-2 border-slate-700'}`}>
+              <div key={idx} className={`rounded-xl p-3 transition-all ${completedExercises[idx] ? 'bg-red-950/60 border-2 border-red-500' : 'bg-slate-950 border-2 border-red-900/30'}`}>
                 <div className="flex items-center gap-3 mb-2">
                   <button onClick={() => toggleExercise(idx)}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center ${completedExercises[idx] ? 'bg-green-500' : 'bg-slate-700'}`}>
-                    {completedExercises[idx] ? <Check size={18} /> : <span className="text-slate-400">{idx + 1}</span>}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center ${completedExercises[idx] ? 'bg-red-500' : 'bg-black border border-red-900/50'}`}>
+                    {completedExercises[idx] ? <Check size={18} /> : <span className="text-slate-500">{idx + 1}</span>}
                   </button>
                   <div className="flex-1">
                     <div className="font-semibold">{ex.name}</div>
-                    <div className="text-xs text-slate-400">Target: {ex.sets} x {ex.reps}</div>
+                    <div className="text-xs text-slate-500">Target: {ex.sets} × {ex.reps}</div>
                   </div>
-                  <button onClick={() => removeExerciseFromActive(idx)} className="text-red-400 p-1">
+                  <button onClick={() => removeExerciseFromActive(idx)} className="text-red-500 p-1">
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -2017,16 +2031,16 @@ export default function GymQuest() {
                     placeholder={lastSession ? `${lastSession.weight}` : "Weight"}
                     value={currentData.weight || ''}
                     onChange={(e) => setCurrentSetData({ ...currentSetData, [idx]: { ...currentData, weight: e.target.value } })}
-                    className="bg-slate-900 rounded-lg px-2 py-1.5 w-20 text-sm" />
-                  <span className="text-xs text-slate-500">lb x</span>
+                    className="bg-black border border-red-900/30 rounded-lg px-2 py-1.5 w-20 text-sm" />
+                  <span className="text-xs text-slate-500">lb ×</span>
                   <input type="number"
                     placeholder={lastSession ? `${lastSession.reps}` : "Reps"}
                     value={currentData.reps || ''}
                     onChange={(e) => setCurrentSetData({ ...currentSetData, [idx]: { ...currentData, reps: e.target.value } })}
-                    className="bg-slate-900 rounded-lg px-2 py-1.5 w-16 text-sm" />
+                    className="bg-black border border-red-900/30 rounded-lg px-2 py-1.5 w-16 text-sm" />
                   {lastSession && (
-                    <span className="text-xs text-cyan-400 ml-auto">
-                      Last: {lastSession.weight}x{lastSession.reps}
+                    <span className="text-xs text-red-400 ml-auto">
+                      Last: {lastSession.weight}×{lastSession.reps}
                     </span>
                   )}
                 </div>
@@ -2037,24 +2051,24 @@ export default function GymQuest() {
 
         {!addingExerciseInWorkout ? (
           <button onClick={() => setAddingExerciseInWorkout(true)}
-            className="w-full bg-slate-800 border-2 border-dashed border-slate-600 rounded-xl py-3 text-slate-400 flex items-center justify-center gap-2 mb-4">
+            className="w-full bg-slate-950 border-2 border-dashed border-red-900/50 rounded-xl py-3 text-slate-500 flex items-center justify-center gap-2 mb-4 hover:text-red-400 hover:border-red-500">
             <Plus size={18} /> Add Exercise
           </button>
         ) : (
-          <div className="bg-slate-800 rounded-xl p-3 mb-4 border border-yellow-500/50">
+          <div className="bg-slate-950 rounded-xl p-3 mb-4 border border-red-500/50">
             <div className="flex items-center gap-2 mb-2">
-              <Search size={16} className="text-slate-400" />
+              <Search size={16} className="text-slate-500" />
               <input type="text" placeholder="Search exercises..."
                 value={inWorkoutSearch} onChange={(e) => setInWorkoutSearch(e.target.value)}
                 className="bg-transparent flex-1 text-sm outline-none" autoFocus />
-              <button onClick={() => { setAddingExerciseInWorkout(false); setInWorkoutSearch(""); }} className="text-slate-400">
+              <button onClick={() => { setAddingExerciseInWorkout(false); setInWorkoutSearch(""); }} className="text-slate-500">
                 <X size={16} />
               </button>
             </div>
             <div className="max-h-48 overflow-y-auto space-y-1">
               {filteredInWorkout.slice(0, 20).map(name => (
                 <button key={name} onClick={() => addExerciseDuringWorkout(name)}
-                  className="w-full text-left bg-slate-900 hover:bg-slate-700 rounded-lg px-3 py-2 text-sm">
+                  className="w-full text-left bg-black hover:bg-red-950/40 rounded-lg px-3 py-2 text-sm">
                   + {name}
                 </button>
               ))}
@@ -2062,15 +2076,15 @@ export default function GymQuest() {
           </div>
         )}
 
-        <div className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 p-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-red-900/30 p-4">
           <div className="max-w-md mx-auto">
-            <div className="text-center text-sm text-slate-400 mb-2">
+            <div className="text-center text-sm text-slate-500 mb-2">
               {completedCount} / {activeExercises.length} completed
             </div>
             <button onClick={finishWorkout} disabled={completedCount === 0}
-              className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold py-4 rounded-xl disabled:opacity-40">
+              className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white font-bold py-4 rounded-xl disabled:opacity-40 uppercase tracking-wider shadow-lg shadow-red-950/50">
               <Swords className="inline mr-2" size={20} />
-              FINISH (+{projectedXp} XP)
+              Finish (+{projectedXp} XP)
             </button>
           </div>
         </div>
@@ -2078,7 +2092,6 @@ export default function GymQuest() {
     );
   }
 
-  // HOME VIEW
   if (!playerData || !difficulty) {
     return null;
   }
@@ -2091,58 +2104,60 @@ export default function GymQuest() {
   const quests = getWeeklyQuests();
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-4 pb-8">
+    <div className="min-h-screen bg-black text-white p-4 pb-8 relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none"></div>
+
       {showXpGain && (
         <div className="fixed top-1/4 left-1/2 -translate-x-1/2 z-50 animate-bounce">
-          <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-black text-2xl px-6 py-3 rounded-2xl shadow-2xl text-center">
+          <div className="bg-gradient-to-r from-red-500 to-red-700 text-white font-black text-2xl px-6 py-3 rounded-2xl shadow-2xl shadow-red-950/80 text-center border border-red-400">
             +{showXpGain.xp} XP
-            {showXpGain.hp > 0 && <div className="text-sm text-green-800">+{showXpGain.hp} HP healed</div>}
-            {showXpGain.goalHit && <div className="text-sm text-purple-800">GOAL HIT! +{showXpGain.bonus} bonus</div>}
+            {showXpGain.hp > 0 && <div className="text-sm">+{showXpGain.hp} HP healed</div>}
+            {showXpGain.goalHit && <div className="text-sm">GOAL HIT! +{showXpGain.bonus}</div>}
             {!showXpGain.goalHit && showXpGain.bonus > 0 && <span className="text-sm block">Streak bonus!</span>}
           </div>
         </div>
       )}
 
       {showLevelUp && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setShowLevelUp(false)}>
-          <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-3xl p-8 text-center max-w-sm border-4 border-yellow-300 shadow-2xl">
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowLevelUp(false)}>
+          <div className="bg-gradient-to-br from-red-600 to-red-900 rounded-3xl p-8 text-center max-w-sm border-4 border-red-400 shadow-2xl shadow-red-950">
             <Trophy size={64} className="mx-auto mb-3" />
-            <div className="text-black/70 text-sm font-bold uppercase tracking-wider">Level Up!</div>
+            <div className="text-white/80 text-sm font-bold uppercase tracking-widest">Level Up</div>
             <div className="text-5xl font-black text-white mb-2">LVL {playerData.level}</div>
-            <div className="text-black font-bold mb-4">{title}</div>
-            <button className="bg-black text-yellow-400 px-6 py-2 rounded-full font-bold" onClick={() => setShowLevelUp(false)}>
-              CONTINUE
+            <div className="text-white font-bold mb-4">{title}</div>
+            <button className="bg-black text-red-400 px-6 py-2 rounded-full font-bold uppercase tracking-wider" onClick={() => setShowLevelUp(false)}>
+              Continue
             </button>
           </div>
         </div>
       )}
 
       {showKnockout && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-red-600 to-red-900 rounded-3xl p-8 text-center max-w-sm border-4 border-red-400 shadow-2xl">
-            <div className="text-red-200 text-sm font-bold uppercase tracking-wider">Knocked Out!</div>
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-red-700 to-red-950 rounded-3xl p-8 text-center max-w-sm border-4 border-red-500 shadow-2xl shadow-red-950">
+            <div className="text-red-200 text-sm font-bold uppercase tracking-widest">Knocked Out</div>
             <div className="text-3xl font-black text-white mb-2">You passed out</div>
-            <div className="text-red-100 text-sm mb-4">Your streak was reset. You've respawned at 50 HP.</div>
-            <button className="bg-white text-red-600 px-6 py-2 rounded-full font-bold" onClick={() => setShowKnockout(false)}>
-              GET BACK UP
+            <div className="text-red-200 text-sm mb-4">Streak reset. Respawn at 50 HP.</div>
+            <button className="bg-white text-red-700 px-6 py-2 rounded-full font-bold uppercase tracking-wider" onClick={() => setShowKnockout(false)}>
+              Get Back Up
             </button>
           </div>
         </div>
       )}
 
       {newAchievement && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setNewAchievement(null)}>
-          <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-3xl p-6 text-center max-w-sm border-4 border-yellow-300 shadow-2xl animate-bounce">
-            <div className="text-xs text-black/70 font-bold uppercase tracking-wider">Achievement Unlocked!</div>
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setNewAchievement(null)}>
+          <div className="bg-gradient-to-br from-red-600 to-red-900 rounded-3xl p-6 text-center max-w-sm border-4 border-red-400 shadow-2xl shadow-red-950 animate-bounce">
+            <div className="text-xs text-white/80 font-bold uppercase tracking-widest">Achievement Unlocked</div>
             <Trophy size={56} className="mx-auto my-3 text-white" />
             <div className="text-2xl font-black text-white mb-1">{newAchievement.name}</div>
-            <div className="text-sm text-black mb-3">{newAchievement.desc}</div>
-            <div className="bg-black/30 rounded-full px-3 py-1 inline-block text-sm font-bold text-white">
+            <div className="text-sm text-white/90 mb-3">{newAchievement.desc}</div>
+            <div className="bg-black/40 rounded-full px-3 py-1 inline-block text-sm font-bold text-white">
               +{newAchievement.xp} XP
             </div>
             <div className="mt-4">
-              <button className="bg-black text-yellow-400 px-6 py-2 rounded-full font-bold" onClick={() => setNewAchievement(null)}>
-                AWESOME
+              <button className="bg-black text-red-400 px-6 py-2 rounded-full font-bold uppercase tracking-wider" onClick={() => setNewAchievement(null)}>
+                Continue
               </button>
             </div>
           </div>
@@ -2150,29 +2165,29 @@ export default function GymQuest() {
       )}
 
       {showBossDefeat && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowBossDefeat(null)}>
-          <div className="bg-gradient-to-br from-purple-600 via-red-600 to-orange-600 rounded-3xl p-8 text-center max-w-sm border-4 border-yellow-300 shadow-2xl">
-            <div className="text-sm text-white/80 font-bold uppercase tracking-wider">Boss Defeated!</div>
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4" onClick={() => setShowBossDefeat(null)}>
+          <div className="bg-gradient-to-br from-red-700 via-red-900 to-black rounded-3xl p-8 text-center max-w-sm border-4 border-red-500 shadow-2xl shadow-red-950">
+            <div className="text-sm text-white/80 font-bold uppercase tracking-widest">Boss Defeated</div>
             <Skull size={72} className="mx-auto my-3 text-white" />
             <div className="text-2xl font-black text-white mb-1">{showBossDefeat.boss.name}</div>
             <div className="text-sm text-white/80 mb-3">has been vanquished</div>
-            <div className="bg-black/40 rounded-xl px-4 py-3 mb-4">
-              <div className="text-xs text-yellow-200 uppercase tracking-wider">Reward</div>
-              <div className="text-3xl font-black text-yellow-300">+{showBossDefeat.reward} XP</div>
+            <div className="bg-black/60 rounded-xl px-4 py-3 mb-4 border border-red-500/30">
+              <div className="text-xs text-red-300 uppercase tracking-widest">Reward</div>
+              <div className="text-3xl font-black text-red-300">+{showBossDefeat.reward} XP</div>
             </div>
-            <button className="bg-white text-red-600 px-6 py-2 rounded-full font-bold" onClick={() => setShowBossDefeat(null)}>
-              VICTORY
+            <button className="bg-white text-red-700 px-6 py-2 rounded-full font-bold uppercase tracking-wider" onClick={() => setShowBossDefeat(null)}>
+              Victory
             </button>
           </div>
         </div>
       )}
 
       {daysAwayMessage && (
-        <div className="bg-red-900/40 border border-red-500/50 rounded-2xl p-3 mb-3 flex items-center gap-3 animate-pulse">
+        <div className="bg-red-950/60 border border-red-500/50 rounded-2xl p-3 mb-3 flex items-center gap-3">
           <div className="flex-1">
-            <div className="text-sm font-bold text-red-200">Welcome back</div>
+            <div className="text-sm font-bold text-red-200 uppercase tracking-wider">Welcome back</div>
             <div className="text-xs text-red-300">
-              You missed {daysAwayMessage.days} {daysAwayMessage.days === 1 ? 'day' : 'days'} - took {daysAwayMessage.damage} damage
+              Missed {daysAwayMessage.days} {daysAwayMessage.days === 1 ? 'day' : 'days'} — took {daysAwayMessage.damage} damage
             </div>
           </div>
           <button onClick={() => setDaysAwayMessage(null)} className="text-red-300">
@@ -2181,48 +2196,42 @@ export default function GymQuest() {
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-3">
-        <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${diffConfig.color} rounded-full px-3 py-1 shadow-lg`}>
+      <div className="relative flex items-center justify-between mb-3">
+        <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${diffConfig.color} rounded-full px-3 py-1 shadow-lg shadow-red-950/50 border border-red-500/30`}>
           <DIcon size={14} />
-          <span className="text-xs font-bold">{diffConfig.name}</span>
+          <span className="text-xs font-bold uppercase tracking-wider">{diffConfig.name}</span>
         </div>
-        <div className="flex gap-2">
-          <button onClick={takeDamage}
-            className="text-xs bg-red-900/40 text-red-300 px-2 py-1 rounded-full border border-red-500/30">
-            Skip day (-20 HP)
-          </button>
-          <button onClick={resetGame} className="text-xs text-slate-500 hover:text-slate-300">
-            Reset
-          </button>
-        </div>
+        <button onClick={resetGame} className="text-xs text-slate-600 hover:text-red-400 uppercase tracking-wider">
+          Reset
+        </button>
       </div>
 
-      <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-5 mb-4 shadow-2xl relative overflow-hidden">
+      <div className="relative bg-gradient-to-br from-red-950 via-black to-red-950/60 rounded-3xl p-5 mb-4 shadow-2xl shadow-red-950/50 border border-red-500/30 overflow-hidden">
         <div className="relative">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="text-xs uppercase tracking-widest opacity-80">{title}</div>
-              <div className="text-2xl font-black">{playerData.name}</div>
+              <div className="text-xs uppercase tracking-widest text-red-400 font-bold">{title}</div>
+              <div className="text-2xl font-black tracking-tight">{playerData.name}</div>
             </div>
-            <div className="bg-black/30 rounded-2xl px-3 py-2 text-center">
-              <div className="text-xs opacity-70">LVL</div>
-              <div className="text-3xl font-black leading-none">{playerData.level}</div>
+            <div className="bg-black/60 rounded-2xl px-3 py-2 text-center border border-red-500/30">
+              <div className="text-xs opacity-70 uppercase tracking-wider">LVL</div>
+              <div className="text-3xl font-black leading-none text-red-400">{playerData.level}</div>
             </div>
           </div>
 
           <div className="mb-2">
             <div className="flex justify-between text-xs mb-1 opacity-90">
-              <span className="flex items-center gap-1">
-                <Heart size={12} className="text-red-300" fill="currentColor" />
+              <span className="flex items-center gap-1 uppercase tracking-wider font-bold">
+                <Heart size={12} className="text-red-400" fill="currentColor" />
                 HP
               </span>
               <span className="font-bold">{playerData.hp} / {playerData.maxHp}</span>
             </div>
-            <div className="h-3 bg-black/40 rounded-full overflow-hidden">
+            <div className="h-3 bg-black/60 rounded-full overflow-hidden border border-red-900/50">
               <div className={`h-full rounded-full transition-all duration-500 ${
-                playerData.hp / playerData.maxHp > 0.6 ? 'bg-gradient-to-r from-green-400 to-emerald-500' :
-                playerData.hp / playerData.maxHp > 0.3 ? 'bg-gradient-to-r from-yellow-400 to-orange-500' :
-                'bg-gradient-to-r from-red-500 to-red-700'
+                playerData.hp / playerData.maxHp > 0.6 ? 'bg-gradient-to-r from-red-400 to-red-500' :
+                playerData.hp / playerData.maxHp > 0.3 ? 'bg-gradient-to-r from-red-500 to-red-700' :
+                'bg-gradient-to-r from-red-700 to-red-900'
               }`}
               style={{ width: `${(playerData.hp / playerData.maxHp) * 100}%` }}></div>
             </div>
@@ -2230,21 +2239,21 @@ export default function GymQuest() {
 
           <div className="mb-2">
             <div className="flex justify-between text-xs mb-1 opacity-80">
-              <span>XP</span>
+              <span className="uppercase tracking-wider font-bold">XP</span>
               <span>{playerData.xp} / {xpNeeded}</span>
             </div>
-            <div className="h-3 bg-black/40 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-full transition-all duration-500"
+            <div className="h-3 bg-black/60 rounded-full overflow-hidden border border-red-900/50">
+              <div className="h-full bg-gradient-to-r from-red-300 to-red-500 rounded-full transition-all duration-500"
                 style={{ width: `${xpPercent}%` }}></div>
             </div>
           </div>
 
           <div className="flex items-center gap-2 mt-3 flex-wrap">
-            <div className="bg-black/30 rounded-full px-3 py-1 flex items-center gap-1">
-              <Flame size={14} className="text-orange-400" />
+            <div className="bg-black/60 rounded-full px-3 py-1 flex items-center gap-1 border border-red-900/30">
+              <Flame size={14} className="text-red-500" />
               <span className="text-sm font-bold">{playerData.streak} day</span>
             </div>
-            <div className="bg-black/30 rounded-full px-3 py-1 flex items-center gap-1">
+            <div className="bg-black/60 rounded-full px-3 py-1 flex items-center gap-1 border border-red-900/30">
               <Dumbbell size={14} />
               <span className="text-sm font-bold">{playerData.totalWorkouts} total</span>
             </div>
@@ -2252,56 +2261,56 @@ export default function GymQuest() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-4">
-        <div className="bg-slate-800 rounded-xl p-3 text-center border border-red-500/30">
-          <Swords size={20} className="mx-auto text-red-400 mb-1" />
-          <div className="text-xs text-slate-400">STR</div>
+      <div className="relative grid grid-cols-3 gap-2 mb-4">
+        <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3 text-center">
+          <Swords size={20} className="mx-auto text-red-500 mb-1" />
+          <div className="text-xs text-slate-500 uppercase tracking-wider">STR</div>
           <div className="text-2xl font-black text-red-400">{playerData.stats.STR}</div>
         </div>
-        <div className="bg-slate-800 rounded-xl p-3 text-center border border-green-500/30">
-          <Heart size={20} className="mx-auto text-green-400 mb-1" />
-          <div className="text-xs text-slate-400">END</div>
-          <div className="text-2xl font-black text-green-400">{playerData.stats.END}</div>
+        <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3 text-center">
+          <Heart size={20} className="mx-auto text-red-400 mb-1" />
+          <div className="text-xs text-slate-500 uppercase tracking-wider">END</div>
+          <div className="text-2xl font-black text-red-400">{playerData.stats.END}</div>
         </div>
-        <div className="bg-slate-800 rounded-xl p-3 text-center border border-blue-500/30">
-          <Zap size={20} className="mx-auto text-blue-400 mb-1" />
-          <div className="text-xs text-slate-400">AGI</div>
-          <div className="text-2xl font-black text-blue-400">{playerData.stats.AGI}</div>
+        <div className="bg-slate-950 border border-red-900/30 rounded-xl p-3 text-center">
+          <Zap size={20} className="mx-auto text-red-300 mb-1" />
+          <div className="text-xs text-slate-500 uppercase tracking-wider">AGI</div>
+          <div className="text-2xl font-black text-red-400">{playerData.stats.AGI}</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 mb-4">
+      <div className="relative grid grid-cols-2 gap-2 mb-4">
         {(() => {
           const targets = getNutritionTargets();
           const totals = getTodayTotals();
           const calPct = Math.min(100, (totals.cal / targets.calorieTarget) * 100);
           return (
             <button onClick={() => setView('nutrition')}
-              className="bg-gradient-to-br from-green-600/30 to-emerald-600/30 border border-green-500/30 rounded-2xl p-3 text-left">
+              className="bg-gradient-to-br from-red-950/60 to-black border border-red-900/50 rounded-2xl p-3 text-left">
               <div className="flex items-center gap-2 mb-2">
-                <Apple size={14} className="text-green-400" />
-                <div className="font-bold text-xs">Nutrition</div>
+                <Apple size={14} className="text-red-500" />
+                <div className="font-bold text-xs uppercase tracking-wider">Nutrition</div>
               </div>
-              <div className="text-xs text-slate-300 mb-1">
+              <div className="text-xs text-slate-400 mb-1">
                 <span className="font-bold text-white">{totals.cal}</span>/{targets.calorieTarget} cal
               </div>
-              <div className="h-1 bg-black/40 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500" style={{ width: `${calPct}%` }}></div>
+              <div className="h-1 bg-black/60 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-red-500 to-red-700" style={{ width: `${calPct}%` }}></div>
               </div>
             </button>
           );
         })()}
 
         <button onClick={() => setView('stats')}
-          className="bg-gradient-to-br from-cyan-600/30 to-blue-600/30 border border-cyan-500/30 rounded-2xl p-3 text-left">
+          className="bg-gradient-to-br from-red-950/60 to-black border border-red-900/50 rounded-2xl p-3 text-left">
           <div className="flex items-center gap-2 mb-2">
-            <BarChart3 size={14} className="text-cyan-400" />
-            <div className="font-bold text-xs">Stats</div>
+            <BarChart3 size={14} className="text-red-500" />
+            <div className="font-bold text-xs uppercase tracking-wider">Stats</div>
           </div>
-          <div className="text-xs text-slate-300">
+          <div className="text-xs text-slate-400">
             <span className="font-bold text-white">{playerData.totalWorkouts}</span> workouts
           </div>
-          <div className="text-xs text-slate-300">
+          <div className="text-xs text-slate-400">
             <span className="font-bold text-white">{weightLog.length}</span> weigh-ins
           </div>
         </button>
@@ -2313,14 +2322,14 @@ export default function GymQuest() {
         const hpPct = (bossHp / boss.hp) * 100;
         return (
           <button onClick={() => setView('boss')}
-            className="w-full bg-gradient-to-br from-red-900/50 to-purple-900/50 border-2 border-red-500/40 rounded-2xl p-3 mb-4 text-left">
-            <div className="text-xs text-red-300 font-bold mb-1">WEEKLY BOSS</div>
-            <div className="font-black text-lg">{boss.name}</div>
-            <div className="text-xs text-red-200 italic mb-2">{boss.flavor}</div>
+            className="relative w-full bg-gradient-to-br from-red-950 to-black border-2 border-red-500/50 rounded-2xl p-3 mb-4 text-left shadow-lg shadow-red-950/50">
+            <div className="text-xs text-red-500 font-bold mb-1 uppercase tracking-widest">Weekly Boss</div>
+            <div className="font-black text-lg tracking-tight">{boss.name}</div>
+            <div className="text-xs text-red-400 italic mb-2">{boss.flavor}</div>
             <div className="flex items-center gap-2">
-              <Heart size={12} className="text-red-400" fill="currentColor" />
-              <div className="flex-1 h-2 bg-black/60 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-red-500 to-red-400 transition-all" style={{ width: `${hpPct}%` }}></div>
+              <Heart size={12} className="text-red-500" fill="currentColor" />
+              <div className="flex-1 h-2 bg-black rounded-full overflow-hidden border border-red-900/50">
+                <div className="h-full bg-gradient-to-r from-red-600 to-red-400 transition-all" style={{ width: `${hpPct}%` }}></div>
               </div>
               <span className="text-xs font-bold">{bossHp}/{boss.hp}</span>
             </div>
@@ -2329,18 +2338,18 @@ export default function GymQuest() {
       })()}
 
       <button onClick={() => setView('achievements')}
-        className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 mb-4 flex items-center gap-3">
-        <Medal size={18} className="text-yellow-400" />
+        className="relative w-full bg-slate-950 border border-red-900/30 rounded-xl p-3 mb-4 flex items-center gap-3">
+        <Medal size={18} className="text-red-500" />
         <div className="flex-1 text-left">
-          <div className="font-bold text-sm">Achievements</div>
-          <div className="text-xs text-slate-400">{unlockedAchievements.length} / {ACHIEVEMENTS.length} unlocked</div>
+          <div className="font-bold text-sm uppercase tracking-wider">Achievements</div>
+          <div className="text-xs text-slate-500">{unlockedAchievements.length} / {ACHIEVEMENTS.length} unlocked</div>
         </div>
       </button>
 
-      <div className="bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-700">
+      <div className="relative bg-slate-950 border border-red-900/30 rounded-2xl p-4 mb-4">
         <div className="flex items-center gap-2 mb-3">
-          <Target size={18} className="text-yellow-400" />
-          <h3 className="font-bold">Weekly Quests</h3>
+          <Target size={18} className="text-red-500" />
+          <h3 className="font-bold uppercase tracking-wider">Weekly Quests</h3>
         </div>
         <div className="space-y-2">
           {quests.map(quest => {
@@ -2349,24 +2358,24 @@ export default function GymQuest() {
             const isClaimed = playerData.questsCompleted.includes(quest.id);
             const QuestIcon = quest.icon;
             return (
-              <div key={quest.id} className="bg-slate-900 rounded-xl p-3">
+              <div key={quest.id} className="bg-black/60 rounded-xl p-3 border border-red-900/20">
                 <div className="flex items-center gap-3 mb-1">
-                  <QuestIcon size={16} className="text-yellow-400" />
+                  <QuestIcon size={16} className="text-red-500" />
                   <div className="flex-1 text-sm font-semibold">{quest.name}</div>
-                  <div className="text-xs text-yellow-400 font-bold">+{quest.xp} XP</div>
+                  <div className="text-xs text-red-400 font-bold">+{quest.xp} XP</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-yellow-400 to-orange-500"
+                  <div className="flex-1 h-2 bg-black rounded-full overflow-hidden border border-red-900/30">
+                    <div className="h-full bg-gradient-to-r from-red-500 to-red-700"
                       style={{ width: `${(progress / quest.target) * 100}%` }}></div>
                   </div>
-                  <span className="text-xs text-slate-400">{progress}/{quest.target}</span>
+                  <span className="text-xs text-slate-500">{progress}/{quest.target}</span>
                   {isComplete && !isClaimed && (
-                    <button onClick={() => claimQuest(quest)} className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full animate-pulse">
-                      CLAIM
+                    <button onClick={() => claimQuest(quest)} className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse uppercase tracking-wider">
+                      Claim
                     </button>
                   )}
-                  {isClaimed && <Check size={16} className="text-green-400" />}
+                  {isClaimed && <Check size={16} className="text-red-500" />}
                 </div>
               </div>
             );
@@ -2374,28 +2383,28 @@ export default function GymQuest() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold flex items-center gap-2">
+      <div className="relative flex items-center justify-between mb-3">
+        <h3 className="font-bold flex items-center gap-2 uppercase tracking-wider">
           <Dumbbell size={18} />
-          Choose Today's Quest
+          Today's Quest
         </h3>
         <button onClick={openBuilder}
-          className="bg-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
+          className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 uppercase tracking-wider">
           <Plus size={14} /> Create
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="relative grid grid-cols-2 gap-3">
         {Object.entries(workouts).map(([key, w]) => (
           <div key={key} className="relative">
             <button onClick={() => startWorkout(key)}
-              className={`bg-gradient-to-br ${w.color} rounded-2xl p-4 text-left shadow-lg hover:scale-105 transition-transform w-full`}>
+              className={`bg-gradient-to-br ${w.color} rounded-2xl p-4 text-left shadow-lg shadow-red-950/50 border border-red-500/30 hover:scale-105 transition-transform w-full`}>
               <div className="font-bold">{w.name}</div>
-              <div className="text-xs opacity-90">+{w.stat} - {w.exercises.length} exercises</div>
+              <div className="text-xs opacity-90 uppercase tracking-wider">+{w.stat} · {w.exercises.length} ex</div>
             </button>
             {w.custom && (
               <button onClick={(e) => { e.stopPropagation(); deleteCustomWorkout(key); }}
-                className="absolute top-2 right-2 bg-black/40 rounded-full p-1">
+                className="absolute top-2 right-2 bg-black/60 rounded-full p-1">
                 <X size={12} />
               </button>
             )}
@@ -2403,8 +2412,8 @@ export default function GymQuest() {
         ))}
       </div>
 
-      <div className="text-center text-xs text-slate-500 mt-6">
-        v2.0 - Clean rewrite - Ready to deploy
+      <div className="relative text-center text-xs text-slate-700 mt-6 uppercase tracking-[0.3em] font-bold">
+        Forge yourself · {diffConfig.name}
       </div>
     </div>
   );
